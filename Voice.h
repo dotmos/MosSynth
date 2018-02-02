@@ -120,7 +120,7 @@ void Voice::NoteOff(){
 
 bool Voice::IsPlaying(){
   //Check if isPlaying is false AND carrier envelope is finished/idling (0) or in delay phase (1)
-  if(this->isPlaying == false && (*(this->carrierEnvelope)).isPlaying() == false){
+  if((this->isPlaying == false) && ((*(this->carrierEnvelope)).isPlaying() == false)){
     return false;
   } else {
     return true;
