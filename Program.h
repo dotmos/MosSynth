@@ -1,3 +1,6 @@
+#ifndef Program_h_
+#define Program_h_
+
 class Program{
   private:
     //The waveformtype to use for an operator 
@@ -71,3 +74,4 @@ int16_t Program::GetFreqAdd(byte operatorIndex){
   return this->freqAdd[operatorIndex];
 }
 
+#endif

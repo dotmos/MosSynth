@@ -1,3 +1,8 @@
+#ifndef Voice_h_
+#define Voice_h_
+
+#include "Program.h"
+
 class Voice{
   private:
     AudioSynthWaveform       *modulator;      //xy=393,306
@@ -5,12 +10,14 @@ class Voice{
     AudioSynthWaveformModulated *carrier;
     AudioEffectEnvelope      *carrierEnvelope;      //xy=872,301
     bool isPlaying;
+    //The program used by this voice
+    Program *program; 
 
   public:
     byte pitch;
     Voice();
-    Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope);
-    void Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope);
+    Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    void Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
     void NoteOn(byte pitch, float level);
     void NoteOff();
     bool IsPlaying();
@@ -19,16 +26,17 @@ class Voice{
 Voice::Voice(){
 }
 
-Voice::Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope)
+Voice::Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program)
 {
- Setup(modulator, modulatorEnvelope, carrier, carrierEnvelope);
+ Setup(modulator, modulatorEnvelope, carrier, carrierEnvelope, program);
 }
 
-void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope){
+void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program){
   this->carrier = carrier;
   this->carrierEnvelope = carrierEnvelope;
   this->modulator = modulator;
   this->modulatorEnvelope = modulatorEnvelope;
+  this->program = program;
 
 
   //set modulator envelope
@@ -142,3 +150,4 @@ bool Voice::IsPlaying(){
   }
 }
 
+#endif
