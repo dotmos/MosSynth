@@ -30,8 +30,22 @@ void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorE
   this->modulator = modulator;
   this->modulatorEnvelope = modulatorEnvelope;
 
-  //Modulator sine * 2, Carrier sine * 1 -> ?Glockenspiel?Harp? (Zelda fairy). :)
 
+  //set modulator envelope
+  (*(this->modulatorEnvelope)).attack(2500);
+  (*(this->modulatorEnvelope)).hold(0);
+  (*(this->modulatorEnvelope)).decay(1);
+  (*(this->modulatorEnvelope)).sustain(1);
+  (*(this->modulatorEnvelope)).release(120);
+  //set carrier envelope
+  (*(this->carrierEnvelope)).attack(10);
+  (*(this->carrierEnvelope)).hold(0);
+  (*(this->carrierEnvelope)).decay(50);
+  (*(this->carrierEnvelope)).sustain(1);
+  (*(this->carrierEnvelope)).release(120);
+
+  //Modulator sine * 2, Carrier sine * 1 -> ?Glockenspiel?Harp? (Zelda fairy). :)
+/*
   //set modulator envelope
   (*(this->modulatorEnvelope)).attack(25);
   (*(this->modulatorEnvelope)).hold(0);
@@ -44,6 +58,7 @@ void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorE
   (*(this->carrierEnvelope)).decay(500);
   (*(this->carrierEnvelope)).sustain(0.6);
   (*(this->carrierEnvelope)).release(700);
+  */
   
 
   //Modulator triangle * 2 (or 0.5), Carrier sine * 1 -> very lush
@@ -99,12 +114,12 @@ void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorE
 
 void Voice::NoteOn(byte pitch, float level){
   //Modulator
-  (*(this->modulator)).begin(1, midiNoteToFreq[pitch]*2, WAVEFORM_SINE);
+  (*(this->modulator)).begin(1, midiNoteToFreq[pitch]*0.5, WAVEFORM_SINE);
   (*(this->modulator)).phase(0);
   (*(this->modulatorEnvelope)).noteOn();
   
   //Carrier
-  (*(this->carrier)).begin(1, midiNoteToFreq[pitch], WAVEFORM_SINE);
+  (*(this->carrier)).begin(1, midiNoteToFreq[pitch], WAVEFORM_SQUARE);
   (*(this->carrier)).phase(0);
   (*(this->carrierEnvelope)).noteOn();
 

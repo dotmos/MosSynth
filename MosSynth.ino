@@ -17,6 +17,7 @@
 
 float midiNoteToFreq[127];
 
+#include "Program.h"
 #include "Voice.h"
 
 // GUItool: begin automatically generated code
