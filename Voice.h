@@ -133,11 +133,35 @@ void Voice::NoteOn(byte pitch, float level){
   //Modulator
   (*(this->modulator)).begin(1, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(0) + (*(this->program)).GetFreqAdd(0), (*(this->program)).GetWaveform(0));
   (*(this->modulator)).phase(0);
+  //set modulator envelope
+  uint16_t *modulatorVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(0);
+  (*(this->modulatorEnvelope)).delay(*(modulatorVolumeEnvelopeSettings+0));
+  (*(this->modulatorEnvelope)).attack(*(modulatorVolumeEnvelopeSettings+1));
+  (*(this->modulatorEnvelope)).hold(*(modulatorVolumeEnvelopeSettings+2));
+  (*(this->modulatorEnvelope)).decay(*(modulatorVolumeEnvelopeSettings+3));
+  (*(this->modulatorEnvelope)).sustain(*(modulatorVolumeEnvelopeSettings+4));
+  (*(this->modulatorEnvelope)).release(*(modulatorVolumeEnvelopeSettings+5));
   (*(this->modulatorEnvelope)).noteOn();
+  /*
+  (*(this->modulatorEnvelope)).attack(2500);
+  (*(this->modulatorEnvelope)).hold(0);
+  (*(this->modulatorEnvelope)).decay(1);
+  (*(this->modulatorEnvelope)).sustain(1);
+  (*(this->modulatorEnvelope)).release(120);
+  
+  */
   
   //Carrier
   (*(this->carrier)).begin(1, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(1) + (*(this->program)).GetFreqAdd(1), (*(this->program)).GetWaveform(1));
   (*(this->carrier)).phase(0);
+  //set carrier envelope
+  uint16_t *carrierVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(1);
+  (*(this->carrierEnvelope)).delay(*(carrierVolumeEnvelopeSettings+0));
+  (*(this->carrierEnvelope)).attack(*(carrierVolumeEnvelopeSettings+1));
+  (*(this->carrierEnvelope)).hold(*(carrierVolumeEnvelopeSettings+2));
+  (*(this->carrierEnvelope)).decay(*(carrierVolumeEnvelopeSettings+3));
+  (*(this->carrierEnvelope)).sustain(*(carrierVolumeEnvelopeSettings+4));
+  (*(this->carrierEnvelope)).release(*(carrierVolumeEnvelopeSettings+5));
   (*(this->carrierEnvelope)).noteOn();
 
   this->pitch = pitch;
