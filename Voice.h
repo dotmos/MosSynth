@@ -45,7 +45,7 @@ void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorE
 
 
   //set modulator envelope
-  (*(this->modulatorEnvelope)).attack(250);
+  (*(this->modulatorEnvelope)).attack(2500);
   (*(this->modulatorEnvelope)).hold(0);
   (*(this->modulatorEnvelope)).decay(1);
   (*(this->modulatorEnvelope)).sustain(1);

@@ -41,8 +41,8 @@ Program::Program() {
   }
   */
   
-  short _waveform[4] = {WAVEFORM_SINE, WAVEFORM_SINE, WAVEFORM_SINE, WAVEFORM_SINE};
-  float _freqMul[4] = {1.0, 1.0, 1.0, 1.0};
+  short _waveform[4] = {WAVEFORM_SINE, WAVEFORM_SQUARE, WAVEFORM_SINE, WAVEFORM_SINE};
+  float _freqMul[4] = {0.5, 1.0, 1.0, 1.0};
   int16_t _freqAdd[4] = {0, 0, 0, 0};
   this->Setup(_waveform, _freqMul, _freqAdd);
 }
