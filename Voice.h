@@ -13,11 +13,16 @@ class Voice{
     //The program used by this voice
     Program *program; 
 
+    void Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+
   public:
     byte pitch;
     Voice();
     Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
-    void Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    
+
+    void SetProgram(Program *program);
+    
     void NoteOn(byte pitch, float level);
     void NoteOff();
     bool IsPlaying();
@@ -40,7 +45,7 @@ void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorE
 
 
   //set modulator envelope
-  (*(this->modulatorEnvelope)).attack(2500);
+  (*(this->modulatorEnvelope)).attack(250);
   (*(this->modulatorEnvelope)).hold(0);
   (*(this->modulatorEnvelope)).decay(1);
   (*(this->modulatorEnvelope)).sustain(1);
@@ -120,14 +125,18 @@ void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorE
   
 }
 
+void Voice::SetProgram(Program* program){
+  this->program = program;
+}
+
 void Voice::NoteOn(byte pitch, float level){
   //Modulator
-  (*(this->modulator)).begin(1, midiNoteToFreq[pitch]*0.5, WAVEFORM_SINE);
+  (*(this->modulator)).begin(1, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(0) + (*(this->program)).GetFreqAdd(0), (*(this->program)).GetWaveform(0));
   (*(this->modulator)).phase(0);
   (*(this->modulatorEnvelope)).noteOn();
   
   //Carrier
-  (*(this->carrier)).begin(1, midiNoteToFreq[pitch], WAVEFORM_SQUARE);
+  (*(this->carrier)).begin(1, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(1) + (*(this->program)).GetFreqAdd(1), (*(this->program)).GetWaveform(1));
   (*(this->carrier)).phase(0);
   (*(this->carrierEnvelope)).noteOn();
 

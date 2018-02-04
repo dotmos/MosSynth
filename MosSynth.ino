@@ -225,22 +225,22 @@ void setup() {
 
   //Setup voices
   Program p = Program();
-  voice[0].Setup(&modulator1, &modulatorEnvelope1, &carrier1, &carrierEnvelope1, &p);
-  voice[1].Setup(&modulator2, &modulatorEnvelope2, &carrier2, &carrierEnvelope2, &p);
-  voice[2].Setup(&modulator3, &modulatorEnvelope3, &carrier3, &carrierEnvelope3, &p);
-  voice[3].Setup(&modulator4, &modulatorEnvelope4, &carrier4, &carrierEnvelope4, &p);
-  voice[4].Setup(&modulator5, &modulatorEnvelope5, &carrier5, &carrierEnvelope5, &p);
-  voice[5].Setup(&modulator6, &modulatorEnvelope6, &carrier6, &carrierEnvelope6, &p);
-  voice[6].Setup(&modulator7, &modulatorEnvelope7, &carrier7, &carrierEnvelope7, &p);
-  voice[7].Setup(&modulator8, &modulatorEnvelope8, &carrier8, &carrierEnvelope8, &p);
-  voice[8].Setup(&modulator9, &modulatorEnvelope9, &carrier9, &carrierEnvelope9, &p);
-  voice[9].Setup(&modulator10, &modulatorEnvelope10, &carrier10, &carrierEnvelope10, &p);
-  voice[10].Setup(&modulator11, &modulatorEnvelope11, &carrier11, &carrierEnvelope11, &p);
-  voice[11].Setup(&modulator12, &modulatorEnvelope12, &carrier12, &carrierEnvelope12, &p);
-  voice[12].Setup(&modulator13, &modulatorEnvelope13, &carrier13, &carrierEnvelope13, &p);
-  voice[13].Setup(&modulator14, &modulatorEnvelope14, &carrier14, &carrierEnvelope14, &p);
-  voice[14].Setup(&modulator15, &modulatorEnvelope15, &carrier15, &carrierEnvelope15, &p);
-  voice[15].Setup(&modulator16, &modulatorEnvelope16, &carrier16, &carrierEnvelope16, &p);
+  voice[0] = Voice(&modulator1, &modulatorEnvelope1, &carrier1, &carrierEnvelope1, &p);
+  voice[1] = Voice(&modulator2, &modulatorEnvelope2, &carrier2, &carrierEnvelope2, &p);
+  voice[2] = Voice(&modulator3, &modulatorEnvelope3, &carrier3, &carrierEnvelope3, &p);
+  voice[3] = Voice(&modulator4, &modulatorEnvelope4, &carrier4, &carrierEnvelope4, &p);
+  voice[4] = Voice(&modulator5, &modulatorEnvelope5, &carrier5, &carrierEnvelope5, &p);
+  voice[5] = Voice(&modulator6, &modulatorEnvelope6, &carrier6, &carrierEnvelope6, &p);
+  voice[6] = Voice(&modulator7, &modulatorEnvelope7, &carrier7, &carrierEnvelope7, &p);
+  voice[7] = Voice(&modulator8, &modulatorEnvelope8, &carrier8, &carrierEnvelope8, &p);
+  voice[8] = Voice(&modulator9, &modulatorEnvelope9, &carrier9, &carrierEnvelope9, &p);
+  voice[9] = Voice(&modulator10, &modulatorEnvelope10, &carrier10, &carrierEnvelope10, &p);
+  voice[10] = Voice(&modulator11, &modulatorEnvelope11, &carrier11, &carrierEnvelope11, &p);
+  voice[11] = Voice(&modulator12, &modulatorEnvelope12, &carrier12, &carrierEnvelope12, &p);
+  voice[12] = Voice(&modulator13, &modulatorEnvelope13, &carrier13, &carrierEnvelope13, &p);
+  voice[13] = Voice(&modulator14, &modulatorEnvelope14, &carrier14, &carrierEnvelope14, &p);
+  voice[14] = Voice(&modulator15, &modulatorEnvelope15, &carrier15, &carrierEnvelope15, &p);
+  voice[15] = Voice(&modulator16, &modulatorEnvelope16, &carrier16, &carrierEnvelope16, &p);
 
   //Setup usb midi
   usbMIDI.setHandleNoteOff(handleNoteOff);
