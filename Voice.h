@@ -17,13 +17,14 @@ class Voice{
 
   public:
     byte pitch;
+    byte channel;
     Voice();
     Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
     
 
     void SetProgram(Program *program);
     
-    void NoteOn(byte pitch, float level);
+    void NoteOn(byte channel, byte pitch, float level);
     void NoteOff();
     bool IsPlaying();
 };
@@ -129,12 +130,16 @@ void Voice::SetProgram(Program* program){
   this->program = program;
 }
 
-void Voice::NoteOn(byte pitch, float level){
+void Voice::NoteOn(byte channel, byte pitch, float level){
+  this->pitch = pitch;
+  this->channel = channel;
+  
+  AudioNoInterrupts();
   //Modulator
-  (*(this->modulator)).begin(1, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(0) + (*(this->program)).GetFreqAdd(0), (*(this->program)).GetWaveform(0));
+  (*(this->modulator)).begin((*(this->program)).GetOperatorVolume(0), midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(0) + (*(this->program)).GetFreqAdd(0), (*(this->program)).GetWaveform(0));
   (*(this->modulator)).phase(0);
   //set modulator envelope
-  uint16_t *modulatorVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(0);
+  float *modulatorVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(0);
   (*(this->modulatorEnvelope)).delay(*(modulatorVolumeEnvelopeSettings+0));
   (*(this->modulatorEnvelope)).attack(*(modulatorVolumeEnvelopeSettings+1));
   (*(this->modulatorEnvelope)).hold(*(modulatorVolumeEnvelopeSettings+2));
@@ -142,20 +147,12 @@ void Voice::NoteOn(byte pitch, float level){
   (*(this->modulatorEnvelope)).sustain(*(modulatorVolumeEnvelopeSettings+4));
   (*(this->modulatorEnvelope)).release(*(modulatorVolumeEnvelopeSettings+5));
   (*(this->modulatorEnvelope)).noteOn();
-  /*
-  (*(this->modulatorEnvelope)).attack(2500);
-  (*(this->modulatorEnvelope)).hold(0);
-  (*(this->modulatorEnvelope)).decay(1);
-  (*(this->modulatorEnvelope)).sustain(1);
-  (*(this->modulatorEnvelope)).release(120);
-  
-  */
   
   //Carrier
-  (*(this->carrier)).begin(1, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(1) + (*(this->program)).GetFreqAdd(1), (*(this->program)).GetWaveform(1));
+  (*(this->carrier)).begin((*(this->program)).GetOperatorVolume(1) * level, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(1) + (*(this->program)).GetFreqAdd(1), (*(this->program)).GetWaveform(1));
   (*(this->carrier)).phase(0);
   //set carrier envelope
-  uint16_t *carrierVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(1);
+  float *carrierVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(1);
   (*(this->carrierEnvelope)).delay(*(carrierVolumeEnvelopeSettings+0));
   (*(this->carrierEnvelope)).attack(*(carrierVolumeEnvelopeSettings+1));
   (*(this->carrierEnvelope)).hold(*(carrierVolumeEnvelopeSettings+2));
@@ -164,8 +161,11 @@ void Voice::NoteOn(byte pitch, float level){
   (*(this->carrierEnvelope)).release(*(carrierVolumeEnvelopeSettings+5));
   (*(this->carrierEnvelope)).noteOn();
 
-  this->pitch = pitch;
+  
   this->isPlaying = true;
+  
+
+  AudioInterrupts();
 }
 
 void Voice::NoteOff(){

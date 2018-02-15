@@ -11,18 +11,21 @@ class Program {
     int16_t freqAdd[4];
 
     //Operator volume DAHDSR envelope [4][6]
-    uint16_t volumeDAHDSR[4][6];
-    //Operator pitch DAHDSR [4][6]
+    float volumeDAHDSR[4][6];
+    //TODO: Operator pitch DAHDSR [4][6]
+
+    //The maximum volume of the operators
+    float operatorVolume[4];
 
     //float feedback; //feedback amount
     //fmAlgorithm; //the fm algorithm to use (1x4 op, 2x2op, 4x1op etc.)
     //name of the program
 
-    void Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], uint16_t volumeDAHDSR[4][6]);
+    void Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]);
     
   public:
     Program();
-    Program(short waveform[4], float freqMul[4], int16_t freqAdd[4], uint16_t volumeDAHDSR[4][6]);
+    Program(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]);
 
     void SetWaveform(byte operatorIndex, short waveform);
     short GetWaveform(byte operatorIndex);
@@ -33,8 +36,11 @@ class Program {
     void SetFreqAdd(byte operatorIndex, int16_t hz);
     int16_t GetFreqAdd(byte operatorIndex);
 
-    void SetVolumeDAHDSR(byte operatorIndex, uint16_t dahdsr[6]);
-    uint16_t *GetVolumeDAHDSR(byte operatorIndex);
+    void SetVolumeDAHDSR(byte operatorIndex, float dahdsr[6]);
+    float *GetVolumeDAHDSR(byte operatorIndex);
+
+    void SetOperatorVolume(byte operatorIndex, float volume);
+    float GetOperatorVolume(byte operatorIndex);
 };
 
 Program::Program() {
@@ -49,20 +55,22 @@ Program::Program() {
     {0, 10, 0, 10, 1, 10}
   };
   */
-  uint16_t _volumeDAHDSR[4][6] = { 
+  float _volumeDAHDSR[4][6] = { 
     {0, 2500, 0, 1, 1, 120},
     {0, 10, 0, 50, 1, 120},
     {0, 10, 0, 10, 1, 10},
     {0, 10, 0, 10, 1, 10}
   };
 
-  this->Setup(_waveform, _freqMul, _freqAdd, _volumeDAHDSR);
+  float _operatorVolume[4] = {0.5, 0.5, 0.5, 0.5};
+
+  this->Setup(_waveform, _freqMul, _freqAdd, _volumeDAHDSR, _operatorVolume);
 }
-Program::Program(short waveform[4], float freqMul[4], int16_t freqAdd[4], uint16_t volumeDAHDSR[4][6]) {
-  this->Setup(waveform, freqMul, freqAdd, volumeDAHDSR);
+Program::Program(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]) {
+  this->Setup(waveform, freqMul, freqAdd, volumeDAHDSR, operatorVolume);
 }
 
-void Program::Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], uint16_t volumeDAHDSR[4][6]) {
+void Program::Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]) {
 
   //Copy settings
   for(int i=0; i<4; ++i){
@@ -70,6 +78,7 @@ void Program::Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], uin
     this->freqMul[i] = freqMul[i];
     this->freqAdd[i] = freqAdd[i];
     this->SetVolumeDAHDSR(i, volumeDAHDSR[i]);
+    this->SetOperatorVolume(i, operatorVolume[i]);
   }
 }
 
@@ -104,14 +113,21 @@ int16_t Program::GetFreqAdd(byte operatorIndex) {
 }
 
 //Sets the volume DAHDSR envelope for an operator
-void Program::SetVolumeDAHDSR(byte operatorIndex, uint16_t dahdsr[6]){
+void Program::SetVolumeDAHDSR(byte operatorIndex, float dahdsr[6]){
   for(int i=0; i<6; ++i){
     this->volumeDAHDSR[operatorIndex][i] = dahdsr[i];
   }
 }
 //Gets the volume DAHDSR envelope for an operator
-uint16_t *Program::GetVolumeDAHDSR(byte operatorIndex){
+float *Program::GetVolumeDAHDSR(byte operatorIndex){
   return this->volumeDAHDSR[operatorIndex];
+}
+
+void Program::SetOperatorVolume(byte operatorIndex, float volume){
+  this->operatorVolume[operatorIndex] = volume;
+}
+float Program::GetOperatorVolume(byte operatorIndex){
+  return this->operatorVolume[operatorIndex];
 }
 
 #endif

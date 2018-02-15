@@ -180,7 +180,16 @@ bool changeMod = false;
 #define VOICE_COUNT 16
 int currentVoiceID=0;
 
-Voice voice[16];
+//All voices
+Voice voice[VOICE_COUNT];
+
+//Current channel programs
+#define CHANNEL_COUNT 16
+Program *channelProgram[CHANNEL_COUNT];
+
+//Program bank nr 1. 128 programs per bank
+#define PROGRAMS_PER_BANK 128
+Program programBank1[PROGRAMS_PER_BANK];
 
 void setup() {
   // put your setup code here, to run once:
@@ -192,7 +201,7 @@ void setup() {
   }
   
   //Give audio lib some memory
-  AudioMemory(40);
+  AudioMemory(64);
   //AudioNoInterrupts();
   
   //enable output
@@ -222,30 +231,100 @@ void setup() {
   mixer5.gain(2, 0.25);
   mixer5.gain(3, 0.25);
 
+  //Create program bank 1
+  for(int i=0; i<PROGRAMS_PER_BANK; ++i){
+    programBank1[i] = Program();
+  }
+  
+  //Setup channel programs
+  Program *firstProgram = &programBank1[0];
+  for(int i=0; i<CHANNEL_COUNT; ++i){
+    channelProgram[i] = firstProgram;
+  }
+
+  //Create some unique programs
+  //Glockenspiel?
+  programBank1[1].SetWaveform(0, WAVEFORM_SINE);
+  programBank1[1].SetFreqMul(0, 2.0);
+  float _volumeDAHDSR0[6] = {0, 50, 0, 2000, 0.5, 700};
+  programBank1[1].SetVolumeDAHDSR(0, _volumeDAHDSR0);
+  programBank1[1].SetFreqAdd(0, 0);
+  programBank1[1].SetOperatorVolume(0,1);
+  programBank1[1].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[1].SetFreqMul(1, 0.5);
+  float _volumeDAHDSR1[6] = {0, 2, 0, 100, 1, 700};
+  programBank1[1].SetVolumeDAHDSR(1, _volumeDAHDSR1);
+  programBank1[1].SetFreqAdd(1, 0);
+  programBank1[1].SetOperatorVolume(1,1);
+
+  //queek quaak ;)
+  programBank1[2].SetWaveform(0, WAVEFORM_TRIANGLE);
+  programBank1[2].SetFreqMul(0, 0.5);
+  float _volumeDAHDSR2[6] = {0, 250, 0, 1500, 0, 1};
+  programBank1[2].SetVolumeDAHDSR(0, _volumeDAHDSR2);
+  programBank1[2].SetFreqAdd(0, 0);
+  programBank1[2].SetOperatorVolume(0,1);
+  programBank1[2].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[2].SetFreqMul(1, 2);
+  float _volumeDAHDSR3[6] = {0, 10, 0, 1500, 0, 1};
+  programBank1[2].SetVolumeDAHDSR(1, _volumeDAHDSR3);
+  programBank1[2].SetFreqAdd(1, 0);
+  programBank1[2].SetOperatorVolume(1,1);
+
+  //such phatness, much wow!
+  programBank1[3].SetWaveform(0, WAVEFORM_SINE);
+  programBank1[3].SetFreqMul(0, 0.5);
+  float _volumeDAHDSR4[6] = {0, 100, 0, 100, 0.5, 10};
+  programBank1[3].SetVolumeDAHDSR(0, _volumeDAHDSR4);
+  programBank1[3].SetFreqAdd(0, 0);
+  programBank1[3].SetOperatorVolume(0,1);
+  programBank1[3].SetWaveform(1, WAVEFORM_SQUARE);
+  programBank1[3].SetFreqMul(1, 1);
+  float _volumeDAHDSR5[6] = {0, 10, 0, 50, 1, 50};
+  programBank1[3].SetVolumeDAHDSR(1, _volumeDAHDSR5);
+  programBank1[3].SetFreqAdd(1, 0);
+  programBank1[3].SetOperatorVolume(1,0.5);
+  /*
+  //set modulator envelope
+  (*(this->modulatorEnvelope)).attack(100);
+  (*(this->modulatorEnvelope)).hold(0);
+  (*(this->modulatorEnvelope)).decay(100);
+  (*(this->modulatorEnvelope)).sustain(0.5);
+  (*(this->modulatorEnvelope)).release(10);
+  //set carrier envelope
+  (*(this->carrierEnvelope)).attack(10);
+  (*(this->carrierEnvelope)).hold(0);
+  (*(this->carrierEnvelope)).decay(50);
+  (*(this->carrierEnvelope)).sustain(1);
+  (*(this->carrierEnvelope)).release(50);
+  */
 
   //Setup voices
-  Program p = Program();
-  voice[0] = Voice(&modulator1, &modulatorEnvelope1, &carrier1, &carrierEnvelope1, &p);
-  voice[1] = Voice(&modulator2, &modulatorEnvelope2, &carrier2, &carrierEnvelope2, &p);
-  voice[2] = Voice(&modulator3, &modulatorEnvelope3, &carrier3, &carrierEnvelope3, &p);
-  voice[3] = Voice(&modulator4, &modulatorEnvelope4, &carrier4, &carrierEnvelope4, &p);
-  voice[4] = Voice(&modulator5, &modulatorEnvelope5, &carrier5, &carrierEnvelope5, &p);
-  voice[5] = Voice(&modulator6, &modulatorEnvelope6, &carrier6, &carrierEnvelope6, &p);
-  voice[6] = Voice(&modulator7, &modulatorEnvelope7, &carrier7, &carrierEnvelope7, &p);
-  voice[7] = Voice(&modulator8, &modulatorEnvelope8, &carrier8, &carrierEnvelope8, &p);
-  voice[8] = Voice(&modulator9, &modulatorEnvelope9, &carrier9, &carrierEnvelope9, &p);
-  voice[9] = Voice(&modulator10, &modulatorEnvelope10, &carrier10, &carrierEnvelope10, &p);
-  voice[10] = Voice(&modulator11, &modulatorEnvelope11, &carrier11, &carrierEnvelope11, &p);
-  voice[11] = Voice(&modulator12, &modulatorEnvelope12, &carrier12, &carrierEnvelope12, &p);
-  voice[12] = Voice(&modulator13, &modulatorEnvelope13, &carrier13, &carrierEnvelope13, &p);
-  voice[13] = Voice(&modulator14, &modulatorEnvelope14, &carrier14, &carrierEnvelope14, &p);
-  voice[14] = Voice(&modulator15, &modulatorEnvelope15, &carrier15, &carrierEnvelope15, &p);
-  voice[15] = Voice(&modulator16, &modulatorEnvelope16, &carrier16, &carrierEnvelope16, &p);
+  voice[0] = Voice(&modulator1, &modulatorEnvelope1, &carrier1, &carrierEnvelope1, firstProgram);
+  voice[1] = Voice(&modulator2, &modulatorEnvelope2, &carrier2, &carrierEnvelope2, firstProgram);
+  voice[2] = Voice(&modulator3, &modulatorEnvelope3, &carrier3, &carrierEnvelope3, firstProgram);
+  voice[3] = Voice(&modulator4, &modulatorEnvelope4, &carrier4, &carrierEnvelope4, firstProgram);
+  voice[4] = Voice(&modulator5, &modulatorEnvelope5, &carrier5, &carrierEnvelope5, firstProgram);
+  voice[5] = Voice(&modulator6, &modulatorEnvelope6, &carrier6, &carrierEnvelope6, firstProgram);
+  voice[6] = Voice(&modulator7, &modulatorEnvelope7, &carrier7, &carrierEnvelope7, firstProgram);
+  voice[7] = Voice(&modulator8, &modulatorEnvelope8, &carrier8, &carrierEnvelope8, firstProgram);
+  voice[8] = Voice(&modulator9, &modulatorEnvelope9, &carrier9, &carrierEnvelope9, firstProgram);
+  voice[9] = Voice(&modulator10, &modulatorEnvelope10, &carrier10, &carrierEnvelope10, firstProgram);
+  voice[10] = Voice(&modulator11, &modulatorEnvelope11, &carrier11, &carrierEnvelope11, firstProgram);
+  voice[11] = Voice(&modulator12, &modulatorEnvelope12, &carrier12, &carrierEnvelope12, firstProgram);
+  voice[12] = Voice(&modulator13, &modulatorEnvelope13, &carrier13, &carrierEnvelope13, firstProgram);
+  voice[13] = Voice(&modulator14, &modulatorEnvelope14, &carrier14, &carrierEnvelope14, firstProgram);
+  voice[14] = Voice(&modulator15, &modulatorEnvelope15, &carrier15, &carrierEnvelope15, firstProgram);
+  voice[15] = Voice(&modulator16, &modulatorEnvelope16, &carrier16, &carrierEnvelope16, firstProgram);
 
-  //Setup usb midi
+  //Setup usb midi handlers
   usbMIDI.setHandleNoteOff(handleNoteOff);
   usbMIDI.setHandleNoteOn(handleNoteOn);
   usbMIDI.setHandleControlChange(handleControlChange);
+  usbMIDI.setHandleProgramChange(handleProgramChange);
+  
+
+  
 
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
@@ -289,33 +368,23 @@ void loop() {
 void handleNoteOn(byte channel, byte pitch, byte velocity)
 {
   if(velocity > 0){
-    Serial.println(pitch);
-    Serial.println(midiNoteToFreq[pitch]);
+    //Serial.println(pitch);
+    //Serial.println(midiNoteToFreq[pitch]);
     // put your main code here, to run repeatedly:
-    //sine_fm1.frequency(midiNoteToFreq[pitch]);
-
-    /*
-    modulator1.begin(1, (midiNoteToFreq[pitch]*frequencyMulCarrier), waveformCarrier);
-    modulator1.phase(0);
-    modulatorEnvelope1.noteOn();
-
-    carrier1.begin(1, midiNoteToFreq[pitch]*frequencyMulMod, waveformMod);
-    carrier1.phase(0);
-    carrierEnvelope1.noteOn();
-    */
-
 
     //Try to find a free voice
     //Note: This implementation results in pops/clicks as the voice might still be in the release phase
     for(int i=0; i<VOICE_COUNT; ++i){
       if(voice[i].IsPlaying() == false){
-        voice[i].NoteOn(pitch, velocity/127.0);
+        voice[i].SetProgram(channelProgram[channel]);
+        voice[i].NoteOn(channel, pitch, velocity/127.0);
         return;
       }
     }
 
     //Otherwise simply use the next voice in stack
-    voice[currentVoiceID].NoteOn(pitch, velocity/127.0);
+    voice[currentVoiceID].SetProgram(channelProgram[channel]);
+    voice[currentVoiceID].NoteOn(channel, pitch, velocity/127.0);
     currentVoiceID++;
     if(currentVoiceID >= VOICE_COUNT) currentVoiceID = 0;
     
@@ -331,14 +400,9 @@ void handleNoteOn(byte channel, byte pitch, byte velocity)
 
 void handleNoteOff(byte channel, byte pitch, byte velocity)
 {
-  /*
-    modulatorEnvelope1.noteOff();
-    carrierEnvelope1.noteOff();
-    */
-
     //Find voice with correct pitch and turn it off
     for(int i=0; i<VOICE_COUNT; ++i){
-      if(voice[i].pitch == pitch){
+      if(voice[i].channel == channel && voice[i].pitch == pitch){
         voice[i].NoteOff();
       }
     }
@@ -347,6 +411,12 @@ void handleNoteOff(byte channel, byte pitch, byte velocity)
     // Note that NoteOn messages with 0 velocity are interpreted as NoteOffs.
 }
 
+//Set program for a channel
+void handleProgramChange(byte channel, byte program){
+  channelProgram[channel] = &programBank1[program];
+}
+
+//Handle control change (knobs, sliders, etc.). Not doing much at the moment
 void handleControlChange(byte channel, byte number, byte value)
 {
   //Numbers:
