@@ -243,35 +243,35 @@ void setup() {
   }
 
   //Create some unique programs
-  //Glockenspiel?
-  programBank1[1].SetWaveform(0, WAVEFORM_SINE);
+  //
+  programBank1[1].SetWaveform(0, WAVEFORM_TRIANGLE);
   programBank1[1].SetFreqMul(0, 2.0);
-  float _volumeDAHDSR0[6] = {0, 50, 0, 2000, 0.5, 700};
+  float _volumeDAHDSR0[6] = {0, 10, 0, 2000, 0.2, 700};
   programBank1[1].SetVolumeDAHDSR(0, _volumeDAHDSR0);
   programBank1[1].SetFreqAdd(0, 0);
   programBank1[1].SetOperatorVolume(0,1);
   programBank1[1].SetWaveform(1, WAVEFORM_SINE);
-  programBank1[1].SetFreqMul(1, 0.5);
-  float _volumeDAHDSR1[6] = {0, 2, 0, 100, 1, 700};
+  programBank1[1].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR1[6] = {0, 10, 0, 100, 1, 700};
   programBank1[1].SetVolumeDAHDSR(1, _volumeDAHDSR1);
   programBank1[1].SetFreqAdd(1, 0);
   programBank1[1].SetOperatorVolume(1,1);
 
   //queek quaak ;)
-  programBank1[2].SetWaveform(0, WAVEFORM_TRIANGLE);
-  programBank1[2].SetFreqMul(0, 0.5);
-  float _volumeDAHDSR2[6] = {0, 250, 0, 1500, 0, 1};
+  programBank1[2].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[2].SetFreqMul(0, 1);
+  float _volumeDAHDSR2[6] = {0, 250, 0, 1500, 0.25, 1};
   programBank1[2].SetVolumeDAHDSR(0, _volumeDAHDSR2);
   programBank1[2].SetFreqAdd(0, 0);
-  programBank1[2].SetOperatorVolume(0,1);
+  programBank1[2].SetOperatorVolume(0, 0.4);
   programBank1[2].SetWaveform(1, WAVEFORM_SINE);
   programBank1[2].SetFreqMul(1, 2);
-  float _volumeDAHDSR3[6] = {0, 10, 0, 1500, 0, 1};
+  float _volumeDAHDSR3[6] = {0, 10, 0, 1500, 0.25, 1};
   programBank1[2].SetVolumeDAHDSR(1, _volumeDAHDSR3);
   programBank1[2].SetFreqAdd(1, 0);
   programBank1[2].SetOperatorVolume(1,1);
 
-  //such phatness, much wow!
+  //bass thingy
   programBank1[3].SetWaveform(0, WAVEFORM_SINE);
   programBank1[3].SetFreqMul(0, 0.5);
   float _volumeDAHDSR4[6] = {0, 100, 0, 100, 0.5, 10};
@@ -284,20 +284,35 @@ void setup() {
   programBank1[3].SetVolumeDAHDSR(1, _volumeDAHDSR5);
   programBank1[3].SetFreqAdd(1, 0);
   programBank1[3].SetOperatorVolume(1,0.5);
-  /*
-  //set modulator envelope
-  (*(this->modulatorEnvelope)).attack(100);
-  (*(this->modulatorEnvelope)).hold(0);
-  (*(this->modulatorEnvelope)).decay(100);
-  (*(this->modulatorEnvelope)).sustain(0.5);
-  (*(this->modulatorEnvelope)).release(10);
-  //set carrier envelope
-  (*(this->carrierEnvelope)).attack(10);
-  (*(this->carrierEnvelope)).hold(0);
-  (*(this->carrierEnvelope)).decay(50);
-  (*(this->carrierEnvelope)).sustain(1);
-  (*(this->carrierEnvelope)).release(50);
-  */
+
+  //noisy lofi bass thingy
+  programBank1[4].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[4].SetFreqMul(0, 1.0);
+  float _volumeDAHDSR6[6] = {0, 1, 0, 300, 0.9, 250};
+  programBank1[4].SetVolumeDAHDSR(0, _volumeDAHDSR6);
+  programBank1[4].SetFreqAdd(0, 0);
+  programBank1[4].SetOperatorVolume(0,1);
+  programBank1[4].SetWaveform(1, WAVEFORM_SQUARE);
+  programBank1[4].SetFreqMul(1, 1);
+  float _volumeDAHDSR7[6] = {0, 10, 0, 30, 0.8, 100};
+  programBank1[4].SetVolumeDAHDSR(1, _volumeDAHDSR7);
+  programBank1[4].SetFreqAdd(1, 0);
+  programBank1[4].SetOperatorVolume(1, 0.7);
+
+  //bass thingy 3
+  programBank1[5].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[5].SetFreqMul(0, 1);
+  float _volumeDAHDSR8[6] = {0, 10, 0, 250, 0.5, 50};
+  programBank1[5].SetVolumeDAHDSR(0, _volumeDAHDSR8);
+  programBank1[5].SetFreqAdd(0, 0);
+  programBank1[5].SetOperatorVolume(0, 1);
+  programBank1[5].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[5].SetFreqMul(1, 1);
+  float _volumeDAHDSR9[6] = {0, 10, 0, 10, 1, 300};
+  programBank1[5].SetVolumeDAHDSR(1, _volumeDAHDSR9);
+  programBank1[5].SetFreqAdd(1, 0);
+  programBank1[5].SetOperatorVolume(1, 1.0);
+  
 
   //Setup voices
   voice[0] = Voice(&modulator1, &modulatorEnvelope1, &carrier1, &carrierEnvelope1, firstProgram);
@@ -344,12 +359,12 @@ void loop() {
     if(c == 'r' || c == 'R'){
       Serial.print("all=");
     Serial.print(AudioProcessorUsage());
-    Serial.print(",");
+    Serial.print("/");
     Serial.print(AudioProcessorUsageMax());
     Serial.print("    ");
     Serial.print("Memory: ");
     Serial.print(AudioMemoryUsage());
-    Serial.print(",");
+    Serial.print("/");
     Serial.println(AudioMemoryUsageMax());
     }
   }
