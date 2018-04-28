@@ -5,7 +5,7 @@
 
 class Voice{
   private:
-    AudioSynthWaveform       *modulator;      //xy=393,306
+    AudioSynthWaveformModulated       *modulator;      //xy=393,306
     AudioEffectEnvelope      *modulatorEnvelope;      //xy=576,305
     AudioSynthWaveformModulated *carrier;
     AudioEffectEnvelope      *carrierEnvelope;      //xy=872,301
@@ -13,13 +13,13 @@ class Voice{
     //The program used by this voice
     Program *program; 
 
-    void Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    void Setup(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
 
   public:
     byte pitch;
     byte channel;
     Voice();
-    Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    Voice(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
     
 
     void SetProgram(Program *program);
@@ -32,18 +32,23 @@ class Voice{
 Voice::Voice(){
 }
 
-Voice::Voice(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program)
+Voice::Voice(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program)
 {
  Setup(modulator, modulatorEnvelope, carrier, carrierEnvelope, program);
 }
 
-void Voice::Setup(AudioSynthWaveform *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program){
+void Voice::Setup(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program){
   this->carrier = carrier;
   this->carrierEnvelope = carrierEnvelope;
   this->modulator = modulator;
   this->modulatorEnvelope = modulatorEnvelope;
   this->program = program;
 
+  //(*(this->carrier)).frequencyModulation(1);
+  //(*(this->modulator)).frequencyModulation(1);
+  //~OPL3/~DX7 style
+  (*(this->carrier)).phaseModulation(900);
+  (*(this->modulator)).phaseModulation(900);
 
   //set modulator envelope
   (*(this->modulatorEnvelope)).attack(2500);
@@ -135,9 +140,11 @@ void Voice::NoteOn(byte channel, byte pitch, float level){
   this->channel = channel;
   
   AudioNoInterrupts();
+  
   //Modulator
   (*(this->modulator)).begin((*(this->program)).GetOperatorVolume(0), midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(0) + (*(this->program)).GetFreqAdd(0), (*(this->program)).GetWaveform(0));
-  (*(this->modulator)).phase(0);
+  //(*(this->modulator)).phaseModulation(1440);
+  //(*(this->modulator)).phase(0);
   //set modulator envelope
   float *modulatorVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(0);
   (*(this->modulatorEnvelope)).delay(*(modulatorVolumeEnvelopeSettings+0));
@@ -150,7 +157,9 @@ void Voice::NoteOn(byte channel, byte pitch, float level){
   
   //Carrier
   (*(this->carrier)).begin((*(this->program)).GetOperatorVolume(1) * level, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(1) + (*(this->program)).GetFreqAdd(1), (*(this->program)).GetWaveform(1));
-  (*(this->carrier)).phase(0);
+  //(*(this->carrier)).phaseModulation(1440);
+  //(*(this->carrier)).phaseModulation(180);
+  //(*(this->carrier)).frequencyModulation(1);
   //set carrier envelope
   float *carrierVolumeEnvelopeSettings = (*(this->program)).GetVolumeDAHDSR(1);
   (*(this->carrierEnvelope)).delay(*(carrierVolumeEnvelopeSettings+0));

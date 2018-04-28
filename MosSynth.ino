@@ -21,22 +21,22 @@ float midiNoteToFreq[127];
 #include "Voice.h"
 
 // GUItool: begin automatically generated code
-AudioSynthWaveform       modulator1;      //xy=91,36
-AudioSynthWaveform       modulator2; //xy=91,72
-AudioSynthWaveform       modulator3; //xy=92,105
-AudioSynthWaveform       modulator4; //xy=92,140
-AudioSynthWaveform       modulator5; //xy=93,176
-AudioSynthWaveform       modulator6; //xy=95,211
-AudioSynthWaveform       modulator10; //xy=96,377
-AudioSynthWaveform       modulator11; //xy=97,413
-AudioSynthWaveform       modulator7; //xy=98,245
-AudioSynthWaveform       modulator12; //xy=98,447
-AudioSynthWaveform       modulator8; //xy=100,280
-AudioSynthWaveform       modulator9; //xy=101,339
-AudioSynthWaveform       modulator15; //xy=104,576
-AudioSynthWaveform       modulator13; //xy=107,503
-AudioSynthWaveform       modulator16;  //xy=107,614
-AudioSynthWaveform       modulator14; //xy=109,539
+AudioSynthWaveformModulated       modulator1;      //xy=91,36
+AudioSynthWaveformModulated       modulator2; //xy=91,72
+AudioSynthWaveformModulated       modulator3; //xy=92,105
+AudioSynthWaveformModulated       modulator4; //xy=92,140
+AudioSynthWaveformModulated       modulator5; //xy=93,176
+AudioSynthWaveformModulated       modulator6; //xy=95,211
+AudioSynthWaveformModulated       modulator10; //xy=96,377
+AudioSynthWaveformModulated       modulator11; //xy=97,413
+AudioSynthWaveformModulated       modulator7; //xy=98,245
+AudioSynthWaveformModulated       modulator12; //xy=98,447
+AudioSynthWaveformModulated       modulator8; //xy=100,280
+AudioSynthWaveformModulated       modulator9; //xy=101,339
+AudioSynthWaveformModulated       modulator15; //xy=104,576
+AudioSynthWaveformModulated       modulator13; //xy=107,503
+AudioSynthWaveformModulated       modulator16;  //xy=107,614
+AudioSynthWaveformModulated       modulator14; //xy=109,539
 AudioEffectEnvelope      modulatorEnvelope1;      //xy=264,35
 AudioEffectEnvelope      modulatorEnvelope2; //xy=264,71
 AudioEffectEnvelope      modulatorEnvelope3; //xy=265,104
@@ -249,7 +249,7 @@ void setup() {
   float _volumeDAHDSR0[6] = {0, 10, 0, 2000, 0.2, 700};
   programBank1[1].SetVolumeDAHDSR(0, _volumeDAHDSR0);
   programBank1[1].SetFreqAdd(0, 0);
-  programBank1[1].SetOperatorVolume(0,1);
+  programBank1[1].SetOperatorVolume(0,0.2);
   programBank1[1].SetWaveform(1, WAVEFORM_SINE);
   programBank1[1].SetFreqMul(1, 1.0);
   float _volumeDAHDSR1[6] = {0, 10, 0, 100, 1, 700};
@@ -258,12 +258,12 @@ void setup() {
   programBank1[1].SetOperatorVolume(1,1);
 
   //queek quaak ;)
-  programBank1[2].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[2].SetWaveform(0, WAVEFORM_TRIANGLE);
   programBank1[2].SetFreqMul(0, 1);
   float _volumeDAHDSR2[6] = {0, 250, 0, 1500, 0.25, 1};
   programBank1[2].SetVolumeDAHDSR(0, _volumeDAHDSR2);
   programBank1[2].SetFreqAdd(0, 0);
-  programBank1[2].SetOperatorVolume(0, 0.4);
+  programBank1[2].SetOperatorVolume(0, 0.08);
   programBank1[2].SetWaveform(1, WAVEFORM_SINE);
   programBank1[2].SetFreqMul(1, 2);
   float _volumeDAHDSR3[6] = {0, 10, 0, 1500, 0.25, 1};
@@ -299,13 +299,13 @@ void setup() {
   programBank1[4].SetFreqAdd(1, 0);
   programBank1[4].SetOperatorVolume(1, 0.7);
 
-  //bass thingy 3
+  //bassy wasp thingy
   programBank1[5].SetWaveform(0, WAVEFORM_SQUARE);
   programBank1[5].SetFreqMul(0, 1);
-  float _volumeDAHDSR8[6] = {0, 10, 0, 250, 0.5, 50};
+  float _volumeDAHDSR8[6] = {0, 50, 0, 250, 0.5, 300};
   programBank1[5].SetVolumeDAHDSR(0, _volumeDAHDSR8);
-  programBank1[5].SetFreqAdd(0, 0);
-  programBank1[5].SetOperatorVolume(0, 1);
+  programBank1[5].SetFreqAdd(0, 0.1);
+  programBank1[5].SetOperatorVolume(0, 0.90);
   programBank1[5].SetWaveform(1, WAVEFORM_SINE);
   programBank1[5].SetFreqMul(1, 1);
   float _volumeDAHDSR9[6] = {0, 10, 0, 10, 1, 300};

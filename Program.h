@@ -8,7 +8,7 @@ class Program {
     //Original frequency of operator will be multiplied by this value [4]
     float freqMul[4];
     //This value (in Hz) will be added to the operator frequency after freqMul was applied [4]
-    int16_t freqAdd[4];
+    float freqAdd[4];
 
     //Operator volume DAHDSR envelope [4][6]
     float volumeDAHDSR[4][6];
@@ -21,11 +21,11 @@ class Program {
     //fmAlgorithm; //the fm algorithm to use (1x4 op, 2x2op, 4x1op etc.)
     //name of the program
 
-    void Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]);
+    void Setup(short waveform[4], float freqMul[4], float freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]);
     
   public:
     Program();
-    Program(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]);
+    Program(short waveform[4], float freqMul[4], float freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]);
 
     void SetWaveform(byte operatorIndex, short waveform);
     short GetWaveform(byte operatorIndex);
@@ -33,8 +33,8 @@ class Program {
     void SetFreqMul(byte operatorIndex, float factor);
     float GetFreqMul(byte operatorIndex);
 
-    void SetFreqAdd(byte operatorIndex, int16_t hz);
-    int16_t GetFreqAdd(byte operatorIndex);
+    void SetFreqAdd(byte operatorIndex, float hz);
+    float GetFreqAdd(byte operatorIndex);
 
     void SetVolumeDAHDSR(byte operatorIndex, float dahdsr[6]);
     float *GetVolumeDAHDSR(byte operatorIndex);
@@ -46,7 +46,7 @@ class Program {
 Program::Program() {
   short _waveform[4] = {WAVEFORM_SINE, WAVEFORM_SQUARE, WAVEFORM_SINE, WAVEFORM_SINE};
   float _freqMul[4] = {0.5, 1.0, 1.0, 1.0};
-  int16_t _freqAdd[4] = {0, 0, 0, 0};
+  float _freqAdd[4] = {0.0, 0, 0, 0};
   /*
   uint16_t _volumeDAHDSR[4][6] = { 
     {0, 10, 0, 10, 1, 10},
@@ -62,15 +62,15 @@ Program::Program() {
     {0, 10, 0, 10, 1, 10}
   };
 
-  float _operatorVolume[4] = {0.5, 0.5, 0.5, 0.5};
+  float _operatorVolume[4] = {0.1, 0.5, 0.5, 0.5};
 
   this->Setup(_waveform, _freqMul, _freqAdd, _volumeDAHDSR, _operatorVolume);
 }
-Program::Program(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]) {
+Program::Program(short waveform[4], float freqMul[4], float freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]) {
   this->Setup(waveform, freqMul, freqAdd, volumeDAHDSR, operatorVolume);
 }
 
-void Program::Setup(short waveform[4], float freqMul[4], int16_t freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]) {
+void Program::Setup(short waveform[4], float freqMul[4], float freqAdd[4], float volumeDAHDSR[4][6], float operatorVolume[4]) {
 
   //Copy settings
   for(int i=0; i<4; ++i){
@@ -104,11 +104,11 @@ float Program::GetFreqMul(byte operatorIndex) {
 }
 
 //Sets a frequency to be added to an operator
-void Program::SetFreqAdd(byte operatorIndex, int16_t hz) {
+void Program::SetFreqAdd(byte operatorIndex, float hz) {
   this->freqAdd[operatorIndex] = hz;
 }
 //Get the frequency that is added to an operator
-int16_t Program::GetFreqAdd(byte operatorIndex) {
+float Program::GetFreqAdd(byte operatorIndex) {
   return this->freqAdd[operatorIndex];
 }
 
