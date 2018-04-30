@@ -6,20 +6,22 @@
 class Voice{
   private:
     AudioSynthWaveformModulated       *modulator;      //xy=393,306
+    AudioEffectWaveshaper *modulatorWaveshape;
     AudioEffectEnvelope      *modulatorEnvelope;      //xy=576,305
     AudioSynthWaveformModulated *carrier;
+    AudioEffectWaveshaper *carrierWaveshape;
     AudioEffectEnvelope      *carrierEnvelope;      //xy=872,301
     bool isPlaying;
     //The program used by this voice
     Program *program; 
 
-    void Setup(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    void Setup(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program);
 
   public:
     byte pitch;
     byte channel;
     Voice();
-    Voice(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    Voice(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program);
     
 
     void SetProgram(Program *program);
@@ -32,23 +34,27 @@ class Voice{
 Voice::Voice(){
 }
 
-Voice::Voice(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program)
+Voice::Voice(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program)
 {
- Setup(modulator, modulatorEnvelope, carrier, carrierEnvelope, program);
+ Setup(modulator, modulatorWaveshape, modulatorEnvelope, carrier, carrierWaveshape, carrierEnvelope, program);
 }
 
-void Voice::Setup(AudioSynthWaveformModulated *modulator, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectEnvelope *carrierEnvelope, Program *program){
-  this->carrier = carrier;
-  this->carrierEnvelope = carrierEnvelope;
+void Voice::Setup(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program){
   this->modulator = modulator;
+  this->modulatorWaveshape = modulatorWaveshape;
   this->modulatorEnvelope = modulatorEnvelope;
+  
+  this->carrier = carrier;
+  this->carrierWaveshape = carrierWaveshape;
+  this->carrierEnvelope = carrierEnvelope;
+  
   this->program = program;
 
   //(*(this->carrier)).frequencyModulation(1);
   //(*(this->modulator)).frequencyModulation(1);
   //~OPL3/~DX7 style
-  (*(this->carrier)).phaseModulation(900);
   (*(this->modulator)).phaseModulation(900);
+  (*(this->carrier)).phaseModulation(900);
 
   //set modulator envelope
   (*(this->modulatorEnvelope)).attack(2500);
@@ -143,6 +149,7 @@ void Voice::NoteOn(byte channel, byte pitch, float level){
   
   //Modulator
   (*(this->modulator)).begin((*(this->program)).GetOperatorVolume(0), midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(0) + (*(this->program)).GetFreqAdd(0), (*(this->program)).GetWaveform(0));
+  (*(this->modulatorWaveshape)).shape((*(this->program)).GetWaveshape(0),WAVESHAPE_SAMPLE_SIZE);
   //(*(this->modulator)).phaseModulation(1440);
   //(*(this->modulator)).phase(0);
   //set modulator envelope
@@ -157,6 +164,7 @@ void Voice::NoteOn(byte channel, byte pitch, float level){
   
   //Carrier
   (*(this->carrier)).begin((*(this->program)).GetOperatorVolume(1) * level, midiNoteToFreq[pitch] * (*(this->program)).GetFreqMul(1) + (*(this->program)).GetFreqAdd(1), (*(this->program)).GetWaveform(1));
+  (*(this->carrierWaveshape)).shape((*(this->program)).GetWaveshape(1),WAVESHAPE_SAMPLE_SIZE);
   //(*(this->carrier)).phaseModulation(1440);
   //(*(this->carrier)).phaseModulation(180);
   //(*(this->carrier)).frequencyModulation(1);

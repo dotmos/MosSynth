@@ -17,188 +17,270 @@
 
 float midiNoteToFreq[127];
 
+#define WAVESHAPE_SAMPLE_SIZE 17
 #include "Program.h"
 #include "Voice.h"
 
 // GUItool: begin automatically generated code
-AudioSynthWaveformModulated modulator1;     //xy=150,58
-AudioSynthWaveformModulated modulator2;     //xy=150,94
-AudioSynthWaveformModulated modulator3;     //xy=151,127
-AudioSynthWaveformModulated modulator4;     //xy=151,162
-AudioSynthWaveformModulated modulator5;     //xy=152,198
-AudioSynthWaveformModulated modulator6;     //xy=154,233
-AudioSynthWaveformModulated modulator10;    //xy=155,399
-AudioSynthWaveformModulated modulator11;    //xy=156,435
-AudioSynthWaveformModulated modulator7;     //xy=157,267
-AudioSynthWaveformModulated modulator12;    //xy=157,469
-AudioSynthWaveformModulated modulator8;     //xy=159,302
-AudioSynthWaveformModulated modulator9;     //xy=160,361
-AudioSynthWaveformModulated modulator13;    //xy=162,523
-AudioSynthWaveformModulated modulator15;    //xy=163,598
-AudioSynthWaveformModulated modulator18; //xy=164.5,729
-AudioSynthWaveformModulated modulator16;    //xy=166,636
-AudioSynthWaveformModulated modulator17; //xy=165.5,804
-AudioSynthWaveformModulated modulator14;    //xy=168,561
-AudioSynthWaveformModulated modulator19; //xy=168.5,842
-AudioSynthWaveformModulated modulator20; //xy=170.5,767
-AudioEffectEnvelope      modulatorEnvelope1; //xy=323,57
-AudioEffectEnvelope      modulatorEnvelope2; //xy=323,93
-AudioEffectEnvelope      modulatorEnvelope3; //xy=324,126
-AudioEffectEnvelope      modulatorEnvelope4; //xy=324,161
-AudioEffectEnvelope      modulatorEnvelope5; //xy=325,197
-AudioEffectEnvelope      modulatorEnvelope6; //xy=327,232
-AudioEffectEnvelope      modulatorEnvelope10; //xy=328,398
-AudioEffectEnvelope      modulatorEnvelope11; //xy=329,434
-AudioEffectEnvelope      modulatorEnvelope7; //xy=330,266
-AudioEffectEnvelope      modulatorEnvelope12; //xy=330,468
-AudioEffectEnvelope      modulatorEnvelope8; //xy=332,301
-AudioEffectEnvelope      modulatorEnvelope9; //xy=333,360
-AudioEffectEnvelope      modulatorEnvelope15; //xy=336,597
-AudioEffectEnvelope      modulatorEnvelope13; //xy=339,524
-AudioEffectEnvelope      modulatorEnvelope16; //xy=339,635
-AudioEffectEnvelope      modulatorEnvelope17; //xy=338.5,803
-AudioEffectEnvelope      modulatorEnvelope14; //xy=341,560
-AudioEffectEnvelope      modulatorEnvelope18; //xy=341.5,730
-AudioEffectEnvelope      modulatorEnvelope19; //xy=341.5,841
-AudioEffectEnvelope      modulatorEnvelope20; //xy=343.5,766
-AudioSynthWaveformModulated carrier1;       //xy=494,57
-AudioSynthWaveformModulated carrier2;       //xy=494,93
-AudioSynthWaveformModulated carrier3;       //xy=495,126
-AudioSynthWaveformModulated carrier4;       //xy=495,161
-AudioSynthWaveformModulated carrier5;       //xy=496,197
-AudioSynthWaveformModulated carrier6;       //xy=498,232
-AudioSynthWaveformModulated carrier10;      //xy=499,398
-AudioSynthWaveformModulated carrier11;      //xy=500,434
-AudioSynthWaveformModulated carrier7;       //xy=501,266
-AudioSynthWaveformModulated carrier12;      //xy=501,468
-AudioSynthWaveformModulated carrier8;       //xy=503,301
-AudioSynthWaveformModulated carrier9;       //xy=504,360
-AudioSynthWaveformModulated carrier15;      //xy=507,597
-AudioSynthWaveformModulated carrier13;      //xy=510,524
-AudioSynthWaveformModulated carrier16;      //xy=510,635
-AudioSynthWaveformModulated carrier17; //xy=509.5,803
-AudioSynthWaveformModulated carrier14;      //xy=512,560
-AudioSynthWaveformModulated carrier18; //xy=512.5,730
-AudioSynthWaveformModulated carrier19; //xy=512.5,841
-AudioSynthWaveformModulated carrier20; //xy=514.5,766
-AudioEffectEnvelope      carrierEnvelope1; //xy=659,57
-AudioEffectEnvelope      carrierEnvelope2; //xy=659,93
-AudioEffectEnvelope      carrierEnvelope3; //xy=660,126
-AudioEffectEnvelope      carrierEnvelope4; //xy=660,161
-AudioEffectEnvelope      carrierEnvelope5; //xy=661,197
-AudioEffectEnvelope      carrierEnvelope6; //xy=663,232
-AudioEffectEnvelope      carrierEnvelope10; //xy=664,398
-AudioEffectEnvelope      carrierEnvelope11; //xy=665,434
-AudioEffectEnvelope      carrierEnvelope7; //xy=666,266
-AudioEffectEnvelope      carrierEnvelope12; //xy=666,468
-AudioEffectEnvelope      carrierEnvelope8; //xy=668,301
-AudioEffectEnvelope      carrierEnvelope9; //xy=669,360
-AudioEffectEnvelope      carrierEnvelope15; //xy=672,597
-AudioEffectEnvelope      carrierEnvelope13; //xy=675,524
-AudioEffectEnvelope      carrierEnvelope16; //xy=675,635
-AudioEffectEnvelope      carrierEnvelope17; //xy=674.5,803
-AudioEffectEnvelope      carrierEnvelope14; //xy=677,560
-AudioEffectEnvelope      carrierEnvelope18; //xy=677.5,730
-AudioEffectEnvelope      carrierEnvelope19; //xy=677.5,841
-AudioEffectEnvelope      carrierEnvelope20; //xy=679.5,766
-AudioMixer4              mixer1;         //xy=826,120
-AudioMixer4              mixer3;         //xy=831,419
-AudioMixer4              mixer2;         //xy=834,239
-AudioMixer4              mixer4;         //xy=840,593
-AudioMixer4              mixer6; //xy=842.5,799
-AudioMixer4              mixer5;         //xy=1000,338
-AudioMixer4              mixerMaster;         //xy=1190,471
-AudioOutputI2S           i2s1;           //xy=1347,437
-AudioConnection          patchCord1(modulator1, modulatorEnvelope1);
-AudioConnection          patchCord2(modulator2, modulatorEnvelope2);
-AudioConnection          patchCord3(modulator3, modulatorEnvelope3);
-AudioConnection          patchCord4(modulator4, modulatorEnvelope4);
-AudioConnection          patchCord5(modulator5, modulatorEnvelope5);
-AudioConnection          patchCord6(modulator6, modulatorEnvelope6);
-AudioConnection          patchCord7(modulator10, modulatorEnvelope10);
-AudioConnection          patchCord8(modulator11, modulatorEnvelope11);
-AudioConnection          patchCord9(modulator7, modulatorEnvelope7);
-AudioConnection          patchCord10(modulator12, modulatorEnvelope12);
-AudioConnection          patchCord11(modulator8, modulatorEnvelope8);
-AudioConnection          patchCord12(modulator9, modulatorEnvelope9);
-AudioConnection          patchCord13(modulator13, modulatorEnvelope13);
-AudioConnection          patchCord14(modulator15, modulatorEnvelope15);
-AudioConnection          patchCord15(modulator18, modulatorEnvelope18);
-AudioConnection          patchCord16(modulator16, modulatorEnvelope16);
-AudioConnection          patchCord17(modulator17, modulatorEnvelope17);
-AudioConnection          patchCord18(modulator14, modulatorEnvelope14);
-AudioConnection          patchCord19(modulator19, modulatorEnvelope19);
-AudioConnection          patchCord20(modulator20, modulatorEnvelope20);
-AudioConnection          patchCord21(modulatorEnvelope1, 0, carrier1, 0);
-AudioConnection          patchCord22(modulatorEnvelope2, 0, carrier2, 0);
-AudioConnection          patchCord23(modulatorEnvelope3, 0, carrier3, 0);
-AudioConnection          patchCord24(modulatorEnvelope4, 0, carrier4, 0);
-AudioConnection          patchCord25(modulatorEnvelope5, 0, carrier5, 0);
-AudioConnection          patchCord26(modulatorEnvelope6, 0, carrier6, 0);
-AudioConnection          patchCord27(modulatorEnvelope10, 0, carrier10, 0);
-AudioConnection          patchCord28(modulatorEnvelope11, 0, carrier11, 0);
-AudioConnection          patchCord29(modulatorEnvelope7, 0, carrier7, 0);
-AudioConnection          patchCord30(modulatorEnvelope12, 0, carrier12, 0);
-AudioConnection          patchCord31(modulatorEnvelope8, 0, carrier8, 0);
-AudioConnection          patchCord32(modulatorEnvelope9, 0, carrier9, 0);
-AudioConnection          patchCord33(modulatorEnvelope15, 0, carrier15, 0);
-AudioConnection          patchCord34(modulatorEnvelope13, 0, carrier13, 0);
-AudioConnection          patchCord35(modulatorEnvelope16, 0, carrier16, 0);
-AudioConnection          patchCord36(modulatorEnvelope17, 0, carrier17, 0);
-AudioConnection          patchCord37(modulatorEnvelope14, 0, carrier14, 0);
-AudioConnection          patchCord38(modulatorEnvelope18, 0, carrier18, 0);
-AudioConnection          patchCord39(modulatorEnvelope19, 0, carrier19, 0);
-AudioConnection          patchCord40(modulatorEnvelope20, 0, carrier20, 0);
-AudioConnection          patchCord41(carrier1, carrierEnvelope1);
-AudioConnection          patchCord42(carrier2, carrierEnvelope2);
-AudioConnection          patchCord43(carrier3, carrierEnvelope3);
-AudioConnection          patchCord44(carrier4, carrierEnvelope4);
-AudioConnection          patchCord45(carrier5, carrierEnvelope5);
-AudioConnection          patchCord46(carrier6, carrierEnvelope6);
-AudioConnection          patchCord47(carrier10, carrierEnvelope10);
-AudioConnection          patchCord48(carrier11, carrierEnvelope11);
-AudioConnection          patchCord49(carrier7, carrierEnvelope7);
-AudioConnection          patchCord50(carrier12, carrierEnvelope12);
-AudioConnection          patchCord51(carrier8, carrierEnvelope8);
-AudioConnection          patchCord52(carrier9, carrierEnvelope9);
-AudioConnection          patchCord53(carrier15, carrierEnvelope15);
-AudioConnection          patchCord54(carrier13, carrierEnvelope13);
-AudioConnection          patchCord55(carrier16, carrierEnvelope16);
-AudioConnection          patchCord56(carrier17, carrierEnvelope17);
-AudioConnection          patchCord57(carrier14, carrierEnvelope14);
-AudioConnection          patchCord58(carrier18, carrierEnvelope18);
-AudioConnection          patchCord59(carrier19, carrierEnvelope19);
-AudioConnection          patchCord60(carrier20, carrierEnvelope20);
-AudioConnection          patchCord61(carrierEnvelope1, 0, mixer1, 0);
-AudioConnection          patchCord62(carrierEnvelope2, 0, mixer1, 1);
-AudioConnection          patchCord63(carrierEnvelope3, 0, mixer1, 2);
-AudioConnection          patchCord64(carrierEnvelope4, 0, mixer1, 3);
-AudioConnection          patchCord65(carrierEnvelope5, 0, mixer2, 0);
-AudioConnection          patchCord66(carrierEnvelope6, 0, mixer2, 1);
-AudioConnection          patchCord67(carrierEnvelope10, 0, mixer3, 1);
-AudioConnection          patchCord68(carrierEnvelope11, 0, mixer3, 2);
-AudioConnection          patchCord69(carrierEnvelope7, 0, mixer2, 2);
-AudioConnection          patchCord70(carrierEnvelope12, 0, mixer3, 3);
-AudioConnection          patchCord71(carrierEnvelope8, 0, mixer2, 3);
-AudioConnection          patchCord72(carrierEnvelope9, 0, mixer3, 0);
-AudioConnection          patchCord73(carrierEnvelope15, 0, mixer4, 2);
-AudioConnection          patchCord74(carrierEnvelope13, 0, mixer4, 0);
-AudioConnection          patchCord75(carrierEnvelope16, 0, mixer4, 3);
-AudioConnection          patchCord76(carrierEnvelope17, 0, mixer6, 2);
-AudioConnection          patchCord77(carrierEnvelope14, 0, mixer4, 1);
-AudioConnection          patchCord78(carrierEnvelope18, 0, mixer6, 0);
-AudioConnection          patchCord79(carrierEnvelope19, 0, mixer6, 3);
-AudioConnection          patchCord80(carrierEnvelope20, 0, mixer6, 1);
-AudioConnection          patchCord81(mixer1, 0, mixer5, 0);
-AudioConnection          patchCord82(mixer3, 0, mixer5, 2);
-AudioConnection          patchCord83(mixer2, 0, mixer5, 1);
-AudioConnection          patchCord84(mixer4, 0, mixer5, 3);
-AudioConnection          patchCord85(mixer6, 0, mixerMaster, 1);
-AudioConnection          patchCord86(mixer5, 0, mixerMaster, 0);
-AudioConnection          patchCord87(mixerMaster, 0, i2s1, 0);
-AudioConnection          patchCord88(mixerMaster, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=1344,487
+AudioSynthWaveformModulated modulator1;     //xy=205,55
+AudioSynthWaveformModulated modulator2;     //xy=205,91
+AudioSynthWaveformModulated modulator3; //xy=206,126
+AudioSynthWaveformModulated modulator4; //xy=208,162
+AudioSynthWaveformModulated modulator5; //xy=210,214
+AudioSynthWaveformModulated modulator6; //xy=210,249
+AudioSynthWaveformModulated modulator7; //xy=210,283
+AudioSynthWaveformModulated modulator8; //xy=214,318
+AudioSynthWaveformModulated modulator10; //xy=217,423
+AudioSynthWaveformModulated modulator9; //xy=218,387
+AudioSynthWaveformModulated modulator11; //xy=218,457
+AudioSynthWaveformModulated modulator12; //xy=218,492
+AudioSynthWaveformModulated modulator13; //xy=220,563
+AudioSynthWaveformModulated modulator14; //xy=223,602
+AudioSynthWaveformModulated modulator15; //xy=223,638
+AudioSynthWaveformModulated modulator16; //xy=223,674
+AudioSynthWaveformModulated modulator17; //xy=224,760
+AudioSynthWaveformModulated modulator18; //xy=226,798
+AudioSynthWaveformModulated modulator19; //xy=227,835
+AudioSynthWaveformModulated modulator20; //xy=227,872
+AudioEffectWaveshaper    modulatorWaveshape1;     //xy=390,54
+AudioEffectWaveshaper    modulatorWaveshape2; //xy=390,91
+AudioEffectWaveshaper    modulatorWaveshape3; //xy=391,126
+AudioEffectWaveshaper    modulatorWaveshape4; //xy=393,162
+AudioEffectWaveshaper    modulatorWaveshape5; //xy=395,214
+AudioEffectWaveshaper    modulatorWaveshape6; //xy=395,249
+AudioEffectWaveshaper    modulatorWaveshape7; //xy=395,283
+AudioEffectWaveshaper    modulatorWaveshape8; //xy=399,318
+AudioEffectWaveshaper    modulatorWaveshape10; //xy=402,423
+AudioEffectWaveshaper    modulatorWaveshape9; //xy=403,387
+AudioEffectWaveshaper    modulatorWaveshape11; //xy=403,457
+AudioEffectWaveshaper    modulatorWaveshape12; //xy=403,492
+AudioEffectWaveshaper    modulatorWaveshape13; //xy=405,563
+AudioEffectWaveshaper    modulatorWaveshape14; //xy=408,602
+AudioEffectWaveshaper    modulatorWaveshape15; //xy=408,638
+AudioEffectWaveshaper    modulatorWaveshape16; //xy=408,674
+AudioEffectWaveshaper    modulatorWaveshape17; //xy=409,760
+AudioEffectWaveshaper    modulatorWaveshape18; //xy=411,798
+AudioEffectWaveshaper    modulatorWaveshape19; //xy=412,835
+AudioEffectWaveshaper    modulatorWaveshape20; //xy=412,872
+AudioEffectEnvelope      modulatorEnvelope1; //xy=603,54
+AudioEffectEnvelope      modulatorEnvelope2; //xy=603,90
+AudioEffectEnvelope      modulatorEnvelope3; //xy=604,125
+AudioEffectEnvelope      modulatorEnvelope4; //xy=606,161
+AudioEffectEnvelope      modulatorEnvelope5; //xy=608,213
+AudioEffectEnvelope      modulatorEnvelope6; //xy=608,248
+AudioEffectEnvelope      modulatorEnvelope7; //xy=608,282
+AudioEffectEnvelope      modulatorEnvelope8; //xy=612,317
+AudioEffectEnvelope      modulatorEnvelope10; //xy=615,422
+AudioEffectEnvelope      modulatorEnvelope9; //xy=616,386
+AudioEffectEnvelope      modulatorEnvelope11; //xy=616,456
+AudioEffectEnvelope      modulatorEnvelope12; //xy=616,491
+AudioEffectEnvelope      modulatorEnvelope13; //xy=618,562
+AudioEffectEnvelope      modulatorEnvelope14; //xy=621,601
+AudioEffectEnvelope      modulatorEnvelope15; //xy=621,637
+AudioEffectEnvelope      modulatorEnvelope16; //xy=621,673
+AudioEffectEnvelope      modulatorEnvelope17; //xy=622,759
+AudioEffectEnvelope      modulatorEnvelope18; //xy=624,797
+AudioEffectEnvelope      modulatorEnvelope19; //xy=625,834
+AudioEffectEnvelope      modulatorEnvelope20; //xy=625,871
+AudioSynthWaveformModulated carrier1;       //xy=774,54
+AudioSynthWaveformModulated carrier2;       //xy=774,90
+AudioSynthWaveformModulated carrier3; //xy=775,125
+AudioSynthWaveformModulated carrier4; //xy=777,161
+AudioSynthWaveformModulated carrier5; //xy=779,213
+AudioSynthWaveformModulated carrier6; //xy=779,248
+AudioSynthWaveformModulated carrier7; //xy=779,282
+AudioSynthWaveformModulated carrier8; //xy=783,317
+AudioSynthWaveformModulated carrier10; //xy=786,422
+AudioSynthWaveformModulated carrier9; //xy=787,386
+AudioSynthWaveformModulated carrier11; //xy=787,456
+AudioSynthWaveformModulated carrier12; //xy=787,491
+AudioSynthWaveformModulated carrier13; //xy=789,562
+AudioSynthWaveformModulated carrier14; //xy=792,601
+AudioSynthWaveformModulated carrier15; //xy=792,637
+AudioSynthWaveformModulated carrier16; //xy=792,673
+AudioSynthWaveformModulated carrier17; //xy=793,759
+AudioSynthWaveformModulated carrier18; //xy=795,797
+AudioSynthWaveformModulated carrier19; //xy=796,834
+AudioSynthWaveformModulated carrier20; //xy=796,871
+AudioEffectWaveshaper    carrierWaveshape2; //xy=942,90
+AudioEffectWaveshaper    carrierWaveshape3; //xy=943,125
+AudioEffectWaveshaper    carrierWaveshape1; //xy=944,54
+AudioEffectWaveshaper    carrierWaveshape4; //xy=945,161
+AudioEffectWaveshaper    carrierWaveshape5; //xy=947,213
+AudioEffectWaveshaper    carrierWaveshape6; //xy=947,248
+AudioEffectWaveshaper    carrierWaveshape7; //xy=947,282
+AudioEffectWaveshaper    carrierWaveshape8; //xy=951,317
+AudioEffectWaveshaper    carrierWaveshape10; //xy=954,422
+AudioEffectWaveshaper    carrierWaveshape9; //xy=955,386
+AudioEffectWaveshaper    carrierWaveshape11; //xy=955,456
+AudioEffectWaveshaper    carrierWaveshape12; //xy=955,491
+AudioEffectWaveshaper    carrierWaveshape13; //xy=957,562
+AudioEffectWaveshaper    carrierWaveshape14; //xy=960,601
+AudioEffectWaveshaper    carrierWaveshape15; //xy=960,637
+AudioEffectWaveshaper    carrierWaveshape16; //xy=960,673
+AudioEffectWaveshaper    carrierWaveshape17; //xy=961,759
+AudioEffectWaveshaper    carrierWaveshape18; //xy=963,797
+AudioEffectWaveshaper    carrierWaveshape19; //xy=964,834
+AudioEffectWaveshaper    carrierWaveshape20; //xy=964,871
+AudioEffectEnvelope      carrierEnvelope1; //xy=1139,54
+AudioEffectEnvelope      carrierEnvelope2; //xy=1139,90
+AudioEffectEnvelope      carrierEnvelope3; //xy=1140,125
+AudioEffectEnvelope      carrierEnvelope4; //xy=1142,161
+AudioEffectEnvelope      carrierEnvelope5; //xy=1144,213
+AudioEffectEnvelope      carrierEnvelope6; //xy=1144,248
+AudioEffectEnvelope      carrierEnvelope7; //xy=1144,282
+AudioEffectEnvelope      carrierEnvelope8; //xy=1148,317
+AudioEffectEnvelope      carrierEnvelope10; //xy=1151,422
+AudioEffectEnvelope      carrierEnvelope9; //xy=1152,386
+AudioEffectEnvelope      carrierEnvelope11; //xy=1152,456
+AudioEffectEnvelope      carrierEnvelope12; //xy=1152,491
+AudioEffectEnvelope      carrierEnvelope13; //xy=1154,562
+AudioEffectEnvelope      carrierEnvelope14; //xy=1157,601
+AudioEffectEnvelope      carrierEnvelope15; //xy=1157,637
+AudioEffectEnvelope      carrierEnvelope16; //xy=1157,673
+AudioEffectEnvelope      carrierEnvelope17; //xy=1158,759
+AudioEffectEnvelope      carrierEnvelope18; //xy=1160,797
+AudioEffectEnvelope      carrierEnvelope19; //xy=1161,834
+AudioEffectEnvelope      carrierEnvelope20; //xy=1161,871
+AudioMixer4              mixer1;         //xy=1306,117
+AudioMixer4              mixer3;         //xy=1309,446
+AudioMixer4              mixer2;         //xy=1312,266
+AudioMixer4              mixer4;         //xy=1317,626
+AudioMixer4              mixer6;         //xy=1320,826
+AudioMixer4              mixer5;         //xy=1478,365
+AudioMixer4              mixerMaster;    //xy=1668,498
+AudioOutputI2S           i2s1;           //xy=1994,487
+AudioConnection          patchCord1(modulator1, modulatorWaveshape1);
+AudioConnection          patchCord2(modulator2, modulatorWaveshape2);
+AudioConnection          patchCord3(modulator3, modulatorWaveshape3);
+AudioConnection          patchCord4(modulator4, modulatorWaveshape4);
+AudioConnection          patchCord5(modulator5, modulatorWaveshape5);
+AudioConnection          patchCord6(modulator6, modulatorWaveshape6);
+AudioConnection          patchCord7(modulator7, modulatorWaveshape7);
+AudioConnection          patchCord8(modulator8, modulatorWaveshape8);
+AudioConnection          patchCord9(modulator10, modulatorWaveshape10);
+AudioConnection          patchCord10(modulator9, modulatorWaveshape9);
+AudioConnection          patchCord11(modulator11, modulatorWaveshape11);
+AudioConnection          patchCord12(modulator12, modulatorWaveshape12);
+AudioConnection          patchCord13(modulator13, modulatorWaveshape13);
+AudioConnection          patchCord14(modulator14, modulatorWaveshape14);
+AudioConnection          patchCord15(modulator15, modulatorWaveshape15);
+AudioConnection          patchCord16(modulator16, modulatorWaveshape16);
+AudioConnection          patchCord17(modulator17, modulatorWaveshape17);
+AudioConnection          patchCord18(modulator18, modulatorWaveshape18);
+AudioConnection          patchCord19(modulator19, modulatorWaveshape19);
+AudioConnection          patchCord20(modulator20, modulatorWaveshape20);
+AudioConnection          patchCord21(modulatorWaveshape1, modulatorEnvelope1);
+AudioConnection          patchCord22(modulatorWaveshape2, modulatorEnvelope2);
+AudioConnection          patchCord23(modulatorWaveshape3, modulatorEnvelope3);
+AudioConnection          patchCord24(modulatorWaveshape4, modulatorEnvelope4);
+AudioConnection          patchCord25(modulatorWaveshape5, modulatorEnvelope5);
+AudioConnection          patchCord26(modulatorWaveshape6, modulatorEnvelope6);
+AudioConnection          patchCord27(modulatorWaveshape7, modulatorEnvelope7);
+AudioConnection          patchCord28(modulatorWaveshape8, modulatorEnvelope8);
+AudioConnection          patchCord29(modulatorWaveshape10, modulatorEnvelope10);
+AudioConnection          patchCord30(modulatorWaveshape9, modulatorEnvelope9);
+AudioConnection          patchCord31(modulatorWaveshape11, modulatorEnvelope11);
+AudioConnection          patchCord32(modulatorWaveshape12, modulatorEnvelope12);
+AudioConnection          patchCord33(modulatorWaveshape13, modulatorEnvelope13);
+AudioConnection          patchCord34(modulatorWaveshape14, modulatorEnvelope14);
+AudioConnection          patchCord35(modulatorWaveshape15, modulatorEnvelope15);
+AudioConnection          patchCord36(modulatorWaveshape16, modulatorEnvelope16);
+AudioConnection          patchCord37(modulatorWaveshape17, modulatorEnvelope17);
+AudioConnection          patchCord38(modulatorWaveshape18, modulatorEnvelope18);
+AudioConnection          patchCord39(modulatorWaveshape19, modulatorEnvelope19);
+AudioConnection          patchCord40(modulatorWaveshape20, modulatorEnvelope20);
+AudioConnection          patchCord41(modulatorEnvelope1, 0, carrier1, 0);
+AudioConnection          patchCord42(modulatorEnvelope2, 0, carrier2, 0);
+AudioConnection          patchCord43(modulatorEnvelope3, 0, carrier3, 0);
+AudioConnection          patchCord44(modulatorEnvelope4, 0, carrier4, 0);
+AudioConnection          patchCord45(modulatorEnvelope5, 0, carrier5, 0);
+AudioConnection          patchCord46(modulatorEnvelope6, 0, carrier6, 0);
+AudioConnection          patchCord47(modulatorEnvelope7, 0, carrier7, 0);
+AudioConnection          patchCord48(modulatorEnvelope8, 0, carrier8, 0);
+AudioConnection          patchCord49(modulatorEnvelope10, 0, carrier10, 0);
+AudioConnection          patchCord50(modulatorEnvelope9, 0, carrier9, 0);
+AudioConnection          patchCord51(modulatorEnvelope11, 0, carrier11, 0);
+AudioConnection          patchCord52(modulatorEnvelope12, 0, carrier12, 0);
+AudioConnection          patchCord53(modulatorEnvelope13, 0, carrier13, 0);
+AudioConnection          patchCord54(modulatorEnvelope14, 0, carrier14, 0);
+AudioConnection          patchCord55(modulatorEnvelope15, 0, carrier15, 0);
+AudioConnection          patchCord56(modulatorEnvelope16, 0, carrier16, 0);
+AudioConnection          patchCord57(modulatorEnvelope17, 0, carrier17, 0);
+AudioConnection          patchCord58(modulatorEnvelope18, 0, carrier18, 0);
+AudioConnection          patchCord59(modulatorEnvelope19, 0, carrier19, 0);
+AudioConnection          patchCord60(modulatorEnvelope20, 0, carrier20, 0);
+AudioConnection          patchCord61(carrier1, carrierWaveshape1);
+AudioConnection          patchCord62(carrier2, carrierWaveshape2);
+AudioConnection          patchCord63(carrier3, carrierWaveshape3);
+AudioConnection          patchCord64(carrier4, carrierWaveshape4);
+AudioConnection          patchCord65(carrier5, carrierWaveshape5);
+AudioConnection          patchCord66(carrier6, carrierWaveshape6);
+AudioConnection          patchCord67(carrier7, carrierWaveshape7);
+AudioConnection          patchCord68(carrier8, carrierWaveshape8);
+AudioConnection          patchCord69(carrier10, carrierWaveshape10);
+AudioConnection          patchCord70(carrier9, carrierWaveshape9);
+AudioConnection          patchCord71(carrier11, carrierWaveshape11);
+AudioConnection          patchCord72(carrier12, carrierWaveshape12);
+AudioConnection          patchCord73(carrier13, carrierWaveshape13);
+AudioConnection          patchCord74(carrier14, carrierWaveshape14);
+AudioConnection          patchCord75(carrier15, carrierWaveshape15);
+AudioConnection          patchCord76(carrier16, carrierWaveshape16);
+AudioConnection          patchCord77(carrier17, carrierWaveshape17);
+AudioConnection          patchCord78(carrier18, carrierWaveshape18);
+AudioConnection          patchCord79(carrier19, carrierWaveshape19);
+AudioConnection          patchCord80(carrier20, carrierWaveshape20);
+AudioConnection          patchCord81(carrierWaveshape2, carrierEnvelope2);
+AudioConnection          patchCord82(carrierWaveshape3, carrierEnvelope3);
+AudioConnection          patchCord83(carrierWaveshape1, carrierEnvelope1);
+AudioConnection          patchCord84(carrierWaveshape4, carrierEnvelope4);
+AudioConnection          patchCord85(carrierWaveshape5, carrierEnvelope5);
+AudioConnection          patchCord86(carrierWaveshape6, carrierEnvelope6);
+AudioConnection          patchCord87(carrierWaveshape7, carrierEnvelope7);
+AudioConnection          patchCord88(carrierWaveshape8, carrierEnvelope8);
+AudioConnection          patchCord89(carrierWaveshape10, carrierEnvelope10);
+AudioConnection          patchCord90(carrierWaveshape9, carrierEnvelope9);
+AudioConnection          patchCord91(carrierWaveshape11, carrierEnvelope11);
+AudioConnection          patchCord92(carrierWaveshape12, carrierEnvelope12);
+AudioConnection          patchCord93(carrierWaveshape13, carrierEnvelope13);
+AudioConnection          patchCord94(carrierWaveshape14, carrierEnvelope14);
+AudioConnection          patchCord95(carrierWaveshape15, carrierEnvelope15);
+AudioConnection          patchCord96(carrierWaveshape16, carrierEnvelope16);
+AudioConnection          patchCord97(carrierWaveshape17, carrierEnvelope17);
+AudioConnection          patchCord98(carrierWaveshape18, carrierEnvelope18);
+AudioConnection          patchCord99(carrierWaveshape19, carrierEnvelope19);
+AudioConnection          patchCord100(carrierWaveshape20, carrierEnvelope20);
+AudioConnection          patchCord101(carrierEnvelope1, 0, mixer1, 0);
+AudioConnection          patchCord102(carrierEnvelope2, 0, mixer1, 1);
+AudioConnection          patchCord103(carrierEnvelope3, 0, mixer1, 2);
+AudioConnection          patchCord104(carrierEnvelope4, 0, mixer1, 3);
+AudioConnection          patchCord105(carrierEnvelope5, 0, mixer2, 0);
+AudioConnection          patchCord106(carrierEnvelope6, 0, mixer2, 1);
+AudioConnection          patchCord107(carrierEnvelope7, 0, mixer2, 2);
+AudioConnection          patchCord108(carrierEnvelope8, 0, mixer2, 3);
+AudioConnection          patchCord109(carrierEnvelope10, 0, mixer3, 1);
+AudioConnection          patchCord110(carrierEnvelope9, 0, mixer3, 0);
+AudioConnection          patchCord111(carrierEnvelope11, 0, mixer3, 2);
+AudioConnection          patchCord112(carrierEnvelope12, 0, mixer3, 3);
+AudioConnection          patchCord113(carrierEnvelope13, 0, mixer4, 0);
+AudioConnection          patchCord114(carrierEnvelope14, 0, mixer4, 1);
+AudioConnection          patchCord115(carrierEnvelope15, 0, mixer4, 2);
+AudioConnection          patchCord116(carrierEnvelope16, 0, mixer4, 3);
+AudioConnection          patchCord117(carrierEnvelope17, 0, mixer6, 0);
+AudioConnection          patchCord118(carrierEnvelope18, 0, mixer6, 1);
+AudioConnection          patchCord119(carrierEnvelope19, 0, mixer6, 2);
+AudioConnection          patchCord120(carrierEnvelope20, 0, mixer6, 3);
+AudioConnection          patchCord121(mixer1, 0, mixer5, 0);
+AudioConnection          patchCord122(mixer3, 0, mixer5, 2);
+AudioConnection          patchCord123(mixer2, 0, mixer5, 1);
+AudioConnection          patchCord124(mixer4, 0, mixer5, 3);
+AudioConnection          patchCord125(mixer6, 0, mixerMaster, 1);
+AudioConnection          patchCord126(mixer5, 0, mixerMaster, 0);
+AudioConnection          patchCord127(mixerMaster, 0, i2s1, 0);
+AudioConnection          patchCord128(mixerMaster, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=1998,536
 // GUItool: end automatically generated code
+
 
 
 
@@ -238,14 +320,14 @@ void setup() {
   }
   
   //Give audio lib some memory
-  AudioMemory(64);
+  AudioMemory(96);
   //AudioNoInterrupts();
   
   //enable output
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.25);
   sgtl5000_1.adcHighPassFilterDisable();  //reduce noise.  https://forum.pjrc.com/threads/27215-24-bit-audio-boards?p=78831&viewfull=1#post78831
-  
+
   //output
   mixer1.gain(0, 0.25);
   mixer1.gain(1, 0.25);
@@ -316,7 +398,7 @@ void setup() {
   programBank1[2].SetFreqAdd(1, 0);
   programBank1[2].SetOperatorVolume(1,1);
 
-  //bass thingy
+  //noisy bass thingy
   programBank1[3].SetWaveform(0, WAVEFORM_SINE);
   programBank1[3].SetFreqMul(0, 0.5);
   float _volumeDAHDSR4[6] = {0, 100, 0, 100, 0.5, 10};
@@ -336,7 +418,7 @@ void setup() {
   float _volumeDAHDSR6[6] = {0, 1, 0, 300, 0.9, 250};
   programBank1[4].SetVolumeDAHDSR(0, _volumeDAHDSR6);
   programBank1[4].SetFreqAdd(0, 0.1);
-  programBank1[4].SetOperatorVolume(0,1);
+  programBank1[4].SetOperatorVolume(0,0.9);
   programBank1[4].SetWaveform(1, WAVEFORM_SQUARE);
   programBank1[4].SetFreqMul(1, 1);
   float _volumeDAHDSR7[6] = {0, 10, 0, 30, 0.8, 100};
@@ -357,29 +439,72 @@ void setup() {
   programBank1[5].SetVolumeDAHDSR(1, _volumeDAHDSR9);
   programBank1[5].SetFreqAdd(1, 0);
   programBank1[5].SetOperatorVolume(1, 1.0);
-  
+
+  float _volumeDAHDSR10[6] = {0, 2500, 0, 2500, 0.5, 500};
+  programBank1[6].SetVolumeDAHDSR(0, _volumeDAHDSR10);
+  programBank1[6].SetWaveform(0, WAVEFORM_SINE);
+  programBank1[6].SetOperatorVolume(0, 0.6);
+  programBank1[6].SetFreqMul(0, 0.25);
+  programBank1[6].SetFreqAdd(0, 0.025);
+  programBank1[6].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[6].SetOperatorVolume(1, 1);
+
+
+  programBank1[7].SetWaveform(0, WAVEFORM_SAWTOOTH_REVERSE);
+  programBank1[7].SetFreqMul(0, 2.0);
+  float _volumeDAHDSR12[6] = {500, 1500, 0, 500, 0.3, 700};
+  programBank1[7].SetVolumeDAHDSR(0, _volumeDAHDSR12);
+  programBank1[7].SetFreqAdd(0, 0.1);
+  programBank1[7].SetOperatorVolume(0,0.15);
+  //float _waveshape12[17] = {-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1};
+  float _waveshape12[17] = {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow(x,2) curve
+  programBank1[7].SetWaveshape(0, _waveshape12);
+  programBank1[7].SetWaveform(1, WAVEFORM_SAWTOOTH_REVERSE);
+  programBank1[7].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR13[6] = {0, 10, 0, 100, 1, 700};
+  programBank1[7].SetVolumeDAHDSR(1, _volumeDAHDSR13);
+  programBank1[7].SetFreqAdd(1, 0);
+  programBank1[7].SetOperatorVolume(1,1);
+  float _waveshape13[17] = {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0, 0, 1, 1, 1, 0-.625, -0.625, -0.625}; 
+  programBank1[7].SetWaveshape(1, _waveshape13);
+
+  //
+  programBank1[8].SetWaveform(0, WAVEFORM_SAWTOOTH_REVERSE);
+  programBank1[8].SetFreqMul(0, 2.0);
+  float _volumeDAHDSR14[6] = {0, 10, 0, 300, 0.2, 700};
+  programBank1[8].SetVolumeDAHDSR(0, _volumeDAHDSR14);
+  programBank1[8].SetFreqAdd(0, 0.05);
+  programBank1[8].SetOperatorVolume(0,0.7);
+  programBank1[8].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[8].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR15[6] = {0, 10, 0, 100, 1, 700};
+  programBank1[8].SetVolumeDAHDSR(1, _volumeDAHDSR15);
+  programBank1[8].SetFreqAdd(1, 0);
+  programBank1[8].SetOperatorVolume(1,1);
+  float _waveshape15[17] = {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow(x,2) curve
+  programBank1[8].SetWaveshape(0, _waveshape15); 
 
   //Setup voices
-  voice[0] = Voice(&modulator1, &modulatorEnvelope1, &carrier1, &carrierEnvelope1, firstProgram);
-  voice[1] = Voice(&modulator2, &modulatorEnvelope2, &carrier2, &carrierEnvelope2, firstProgram);
-  voice[2] = Voice(&modulator3, &modulatorEnvelope3, &carrier3, &carrierEnvelope3, firstProgram);
-  voice[3] = Voice(&modulator4, &modulatorEnvelope4, &carrier4, &carrierEnvelope4, firstProgram);
-  voice[4] = Voice(&modulator5, &modulatorEnvelope5, &carrier5, &carrierEnvelope5, firstProgram);
-  voice[5] = Voice(&modulator6, &modulatorEnvelope6, &carrier6, &carrierEnvelope6, firstProgram);
-  voice[6] = Voice(&modulator7, &modulatorEnvelope7, &carrier7, &carrierEnvelope7, firstProgram);
-  voice[7] = Voice(&modulator8, &modulatorEnvelope8, &carrier8, &carrierEnvelope8, firstProgram);
-  voice[8] = Voice(&modulator9, &modulatorEnvelope9, &carrier9, &carrierEnvelope9, firstProgram);
-  voice[9] = Voice(&modulator10, &modulatorEnvelope10, &carrier10, &carrierEnvelope10, firstProgram);
-  voice[10] = Voice(&modulator11, &modulatorEnvelope11, &carrier11, &carrierEnvelope11, firstProgram);
-  voice[11] = Voice(&modulator12, &modulatorEnvelope12, &carrier12, &carrierEnvelope12, firstProgram);
-  voice[12] = Voice(&modulator13, &modulatorEnvelope13, &carrier13, &carrierEnvelope13, firstProgram);
-  voice[13] = Voice(&modulator14, &modulatorEnvelope14, &carrier14, &carrierEnvelope14, firstProgram);
-  voice[14] = Voice(&modulator15, &modulatorEnvelope15, &carrier15, &carrierEnvelope15, firstProgram);
-  voice[15] = Voice(&modulator16, &modulatorEnvelope16, &carrier16, &carrierEnvelope16, firstProgram);
-  voice[16] = Voice(&modulator17, &modulatorEnvelope17, &carrier17, &carrierEnvelope17, firstProgram);
-  voice[17] = Voice(&modulator18, &modulatorEnvelope18, &carrier18, &carrierEnvelope18, firstProgram);
-  voice[18] = Voice(&modulator19, &modulatorEnvelope18, &carrier19, &carrierEnvelope19, firstProgram);
-  voice[19] = Voice(&modulator20, &modulatorEnvelope20, &carrier20, &carrierEnvelope20, firstProgram);
+  voice[0] = Voice(&modulator1, &modulatorWaveshape1, &modulatorEnvelope1, &carrier1, &carrierWaveshape1, &carrierEnvelope1, firstProgram);
+  voice[1] = Voice(&modulator2, &modulatorWaveshape2, &modulatorEnvelope2, &carrier2, &carrierWaveshape2, &carrierEnvelope2, firstProgram);
+  voice[2] = Voice(&modulator3, &modulatorWaveshape3, &modulatorEnvelope3, &carrier3, &carrierWaveshape3, &carrierEnvelope3, firstProgram);
+  voice[3] = Voice(&modulator4, &modulatorWaveshape4, &modulatorEnvelope4, &carrier4, &carrierWaveshape4, &carrierEnvelope4, firstProgram);
+  voice[4] = Voice(&modulator5, &modulatorWaveshape5, &modulatorEnvelope5, &carrier5, &carrierWaveshape5, &carrierEnvelope5, firstProgram);
+  voice[5] = Voice(&modulator6, &modulatorWaveshape6, &modulatorEnvelope6, &carrier6, &carrierWaveshape6, &carrierEnvelope6, firstProgram);
+  voice[6] = Voice(&modulator7, &modulatorWaveshape7, &modulatorEnvelope7, &carrier7, &carrierWaveshape7, &carrierEnvelope7, firstProgram);
+  voice[7] = Voice(&modulator8, &modulatorWaveshape8, &modulatorEnvelope8, &carrier8, &carrierWaveshape8, &carrierEnvelope8, firstProgram);
+  voice[8] = Voice(&modulator9, &modulatorWaveshape9, &modulatorEnvelope9, &carrier9, &carrierWaveshape9, &carrierEnvelope9, firstProgram);
+  voice[9] = Voice(&modulator10, &modulatorWaveshape10, &modulatorEnvelope10, &carrier10, &carrierWaveshape10, &carrierEnvelope10, firstProgram);
+  voice[10] = Voice(&modulator11, &modulatorWaveshape11, &modulatorEnvelope11, &carrier11, &carrierWaveshape11, &carrierEnvelope11, firstProgram);
+  voice[11] = Voice(&modulator12, &modulatorWaveshape12, &modulatorEnvelope12, &carrier12, &carrierWaveshape12, &carrierEnvelope12, firstProgram);
+  voice[12] = Voice(&modulator13, &modulatorWaveshape13, &modulatorEnvelope13, &carrier13, &carrierWaveshape13, &carrierEnvelope13, firstProgram);
+  voice[13] = Voice(&modulator14, &modulatorWaveshape14, &modulatorEnvelope14, &carrier14, &carrierWaveshape14, &carrierEnvelope14, firstProgram);
+  voice[14] = Voice(&modulator15, &modulatorWaveshape15, &modulatorEnvelope15, &carrier15, &carrierWaveshape15, &carrierEnvelope15, firstProgram);
+  voice[15] = Voice(&modulator16, &modulatorWaveshape16, &modulatorEnvelope16, &carrier16, &carrierWaveshape16, &carrierEnvelope16, firstProgram);
+  voice[16] = Voice(&modulator17, &modulatorWaveshape17, &modulatorEnvelope17, &carrier17, &carrierWaveshape17, &carrierEnvelope17, firstProgram);
+  voice[17] = Voice(&modulator18, &modulatorWaveshape18, &modulatorEnvelope18, &carrier18, &carrierWaveshape18, &carrierEnvelope18, firstProgram);
+  voice[18] = Voice(&modulator19, &modulatorWaveshape19, &modulatorEnvelope18, &carrier19, &carrierWaveshape19, &carrierEnvelope19, firstProgram);
+  voice[19] = Voice(&modulator20, &modulatorWaveshape20, &modulatorEnvelope20, &carrier20, &carrierWaveshape20, &carrierEnvelope20, firstProgram);
 
   //Setup usb midi handlers
   usbMIDI.setHandleNoteOff(handleNoteOff);
