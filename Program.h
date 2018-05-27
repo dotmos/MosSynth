@@ -21,9 +21,9 @@ class Program {
     float waveshape[2][WAVESHAPE_SAMPLE_SIZE];
 
     //float feedback; //feedback amount
-    //fmAlgorithm; //the fm algorithm to use (1x4 op, 2x2op, 4x1op etc.) UPDATE: This is not possible at the moment since the audio library can not really be reconnected/instanced at runtime
-    //algorithm; //The modulation algorithm to use. Frequency modulation or phase modulation
-    //name of the program
+    //byte fmAlgorithm; //the fm algorithm to use (1x4 op, 2x2op, 4x1op etc.) UPDATE: This is not possible at the moment since the audio library can not really be reconnected/instanced at runtime
+    //byte algorithm; //The modulation algorithm to use. Frequency modulation or phase modulation
+    //string name; //name of the program
 
     void Setup(short waveform[2], float waveshape[2][WAVESHAPE_SAMPLE_SIZE], float freqMul[2], float freqAdd[2], float volumeDAHDSR[2][6], float operatorVolume[2]);
     

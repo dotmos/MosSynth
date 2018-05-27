@@ -484,6 +484,71 @@ void setup() {
   float _waveshape15[17] = {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow(x,2) curve
   programBank1[8].SetWaveshape(0, _waveshape15); 
 
+
+  //w00tness
+  programBank1[9].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[9].SetFreqMul(0, 1);
+  float _volumeDAHDSR16[6] = {0, 50, 0, 250, 0.75, 300};
+  programBank1[9].SetVolumeDAHDSR(0, _volumeDAHDSR16);
+  programBank1[9].SetFreqAdd(0, 0.1);
+  programBank1[9].SetOperatorVolume(0, 0.90);
+  float _waveshape16[17] = {-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1}; //"lowpass" beim kick
+  //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0};  //"lowpass" nach dem kick
+  programBank1[9].SetWaveshape(0, _waveshape16); 
+  programBank1[9].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[9].SetFreqMul(1, 1);
+  float _volumeDAHDSR17[6] = {0, 10, 0, 10, 1, 300};
+  programBank1[9].SetVolumeDAHDSR(1, _volumeDAHDSR17);
+  programBank1[9].SetFreqAdd(1, 0);
+  programBank1[9].SetOperatorVolume(1, 1.0);
+  float _waveshape17[17] = {-1, -1, -1, -1, -1, 0,0, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1};
+  //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0}; //"high noise"
+  programBank1[9].SetWaveshape(1, _waveshape17); 
+
+  //w00tness 2
+  programBank1[10].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[10].SetFreqMul(0, 1);
+  float _volumeDAHDSR18[6] = {0, 60, 0, 250, 0.5, 300};
+  programBank1[10].SetVolumeDAHDSR(0, _volumeDAHDSR18);
+  programBank1[10].SetFreqAdd(0, 0.1);
+  programBank1[10].SetOperatorVolume(0, 0.9);
+  float _waveshape18[17] = {-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1}; //"lowpass" beim kick
+  //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0};  //"lowpass" nach dem kick
+  programBank1[10].SetWaveshape(0, _waveshape18); 
+  programBank1[10].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[10].SetFreqMul(1, 1);
+  float _volumeDAHDSR19[6] = {0, 10, 0, 10, 1, 300};
+  programBank1[10].SetVolumeDAHDSR(1, _volumeDAHDSR19);
+  programBank1[10].SetFreqAdd(1, 0);
+  programBank1[10].SetOperatorVolume(1, 1.0);
+  float _waveshape19[17] = {-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1};
+  //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0}; //"high noise"
+  //programBank1[10].SetWaveshape(1, _waveshape19); 
+
+  //Noisy stuff
+   programBank1[11].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[11].SetFreqMul(0, 1);
+  float _volumeDAHDSR20[6] = {0, 100, 0, 50, 0.5, 300};
+  programBank1[11].SetVolumeDAHDSR(0, _volumeDAHDSR20);
+  programBank1[11].SetFreqAdd(0, 0.1);
+  programBank1[11].SetOperatorVolume(0, 0.9);
+  float _waveshape20[17] = {-1, -1, -1, -1, -1, -1, 0, 0.5, 0, 1, 0, 1, 0, 1, 0, 1, 0};//{-1, -1, -1, -1, -1, -1, 0, 0.5, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+  //{-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1}; //"lowpass" beim kick
+  //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0};  //"lowpass" nach dem kick
+  //{-1, -0.765625, -0.5625, -0.390625, 0, 0,0, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1};
+  programBank1[11].SetWaveshape(0, _waveshape20); 
+  programBank1[11].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[11].SetFreqMul(1, 1);
+  float _volumeDAHDSR21[6] = {0, 10, 0, 10, 1, 300};
+  programBank1[11].SetVolumeDAHDSR(1, _volumeDAHDSR21);
+  programBank1[11].SetFreqAdd(1, 0);
+  programBank1[11].SetOperatorVolume(1, 1);
+  float _waveshape21[17] = {-1, -1, -1, -1, -1, -1, 0, 0.5, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+  //{-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1}; "low" noise
+  //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0}; //"high noise"
+  programBank1[11].SetWaveshape(1, _waveshape21); 
+  
+
   //Setup voices
   voice[0] = Voice(&modulator1, &modulatorWaveshape1, &modulatorEnvelope1, &carrier1, &carrierWaveshape1, &carrierEnvelope1, firstProgram);
   voice[1] = Voice(&modulator2, &modulatorWaveshape2, &modulatorEnvelope2, &carrier2, &carrierWaveshape2, &carrierEnvelope2, firstProgram);
