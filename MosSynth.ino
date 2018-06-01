@@ -547,6 +547,115 @@ void setup() {
   //{-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1}; "low" noise
   //{-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 1, 0, 1, 0, 1, 0, 1, 0}; //"high noise"
   programBank1[11].SetWaveshape(1, _waveshape21); 
+
+
+  programBank1[12].SetWaveform(0, WAVEFORM_SAWTOOTH_REVERSE);
+  programBank1[12].SetFreqMul(0, 0.5);
+  float _volumeDAHDSR22[6] = {0, 30, 0, 100, 0.5, 70};
+  programBank1[12].SetVolumeDAHDSR(0, _volumeDAHDSR22);
+  programBank1[12].SetFreqAdd(0, 0.05);
+  programBank1[12].SetOperatorVolume(0,0.3);
+  float _waveshape22[17] = {-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[12].SetWaveshape(0, _waveshape22); 
+  programBank1[12].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[12].SetFreqMul(1, 2.0);
+  float _volumeDAHDSR23[6] = {0, 10, 0, 100, 1, 100};
+  programBank1[12].SetVolumeDAHDSR(1, _volumeDAHDSR23);
+  programBank1[12].SetFreqAdd(1, 0);
+  programBank1[12].SetOperatorVolume(1,1);
+
+
+  programBank1[13].SetWaveform(0, WAVEFORM_SQUARE);
+  programBank1[13].SetFreqMul(0, 0.5);
+  float _volumeDAHDSR24[6] = {0, 8, 0, 100, 0.3, 70};
+  programBank1[13].SetVolumeDAHDSR(0, _volumeDAHDSR24);
+  programBank1[13].SetFreqAdd(0, 1);
+  programBank1[13].SetOperatorVolume(0,0.25);
+  float _waveshape24[17] = {-1, -1, -1, -1, -1, -0.75, -0.5, -0.25, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[13].SetWaveshape(0, _waveshape24); 
+  programBank1[13].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[13].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR25[6] = {0, 30, 0, 100, 1, 100};
+  programBank1[13].SetVolumeDAHDSR(1, _volumeDAHDSR25);
+  programBank1[13].SetFreqAdd(1, 0);
+  programBank1[13].SetOperatorVolume(1,0.9);
+  float _waveshape25[17] = {-1, -1, -1, -1, -1, -1,-1, -1, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[13].SetWaveshape(1, _waveshape25); 
+
+
+  programBank1[14].SetWaveform(0, WAVEFORM_TRIANGLE);
+  programBank1[14].SetFreqMul(0, 0.5);
+  float _volumeDAHDSR26[6] = {0, 8, 0, 20, 0.3, 70};
+  programBank1[14].SetVolumeDAHDSR(0, _volumeDAHDSR26);
+  programBank1[14].SetFreqAdd(0, 1);
+  programBank1[14].SetOperatorVolume(0,0.4);
+  float _waveshape26[17] = {-1, 0, -1, 0, -1, 0,-1, 0, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[14].SetWaveshape(0, _waveshape26); 
+  programBank1[14].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[14].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR27[6] = {0, 10, 0, 100, 1, 100};
+  programBank1[14].SetVolumeDAHDSR(1, _volumeDAHDSR27);
+  programBank1[14].SetFreqAdd(1, 0);
+  programBank1[14].SetOperatorVolume(1,0.9);
+  float _waveshape27[17] = {-1, -1, -1, -1, -1, -1,-1, -1, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[14].SetWaveshape(1, _waveshape27); 
+
+  //80s bass
+  programBank1[15].SetWaveform(0, WAVEFORM_SINE);
+  programBank1[15].SetFreqMul(0, 1);
+  float _volumeDAHDSR28[6] = {0, 10, 0, 40, 0.3, 70};
+  programBank1[15].SetVolumeDAHDSR(0, _volumeDAHDSR28);
+  programBank1[15].SetFreqAdd(0, 1);
+  programBank1[15].SetOperatorVolume(0,0.3);
+  float _waveshape28[17] = {-1, -1, -1, -1, -1, -0.75, -0.5, -0.25, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[15].SetWaveshape(0, _waveshape28); 
+  programBank1[15].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[15].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR29[6] = {0, 10, 0, 100, 1, 100};
+  programBank1[15].SetVolumeDAHDSR(1, _volumeDAHDSR29);
+  programBank1[15].SetFreqAdd(1, 0);
+  programBank1[15].SetOperatorVolume(1,1);
+  float _waveshape29[17] = {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow2
+  // {-1, -1, -1, -1, -1, -1,-1, -1, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //guitary
+  // {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow2
+  //programBank1[15].SetWaveshape(1, _waveshape29); 
+
+  //
+  programBank1[16].SetWaveform(0, WAVEFORM_SINE);
+  programBank1[16].SetFreqMul(0, 1);
+  float _volumeDAHDSR30[6] = {0, 2, 0, 40, 0.3, 200};
+  programBank1[16].SetVolumeDAHDSR(0, _volumeDAHDSR30);
+  programBank1[16].SetFreqAdd(0, 1);
+  programBank1[16].SetOperatorVolume(0,0.3);
+  float _waveshape30[17] = {-1, -1, -1, -1, -1, -1, -1, -1, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[16].SetWaveshape(0, _waveshape30); 
+  programBank1[16].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[16].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR31[6] = {0, 10, 0, 100, 1, 150};
+  programBank1[16].SetVolumeDAHDSR(1, _volumeDAHDSR31);
+  programBank1[16].SetFreqAdd(1, 0);
+  programBank1[16].SetOperatorVolume(1,1);
+  float _waveshape31[17] = {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow2
+  // {-1, -1, -1, -1, -1, -1,-1, -1, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //guitary
+  // {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow2
+  programBank1[16].SetWaveshape(1, _waveshape31); 
+  
+
+  //
+  programBank1[17].SetWaveform(0, WAVEFORM_TRIANGLE);
+  programBank1[17].SetFreqMul(0, 2.0);
+  float _volumeDAHDSR32[6] = {0, 30, 0, 200, 0.2, 700};
+  programBank1[17].SetVolumeDAHDSR(0, _volumeDAHDSR32);
+  programBank1[17].SetFreqAdd(0, 1);
+  programBank1[17].SetOperatorVolume(0,0.2);
+  float _waveshape32[17] = {-1, -1, -1, -1, -1, -0.75, -0.5, -0.25, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  programBank1[17].SetWaveshape(0, _waveshape32); 
+  programBank1[17].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[17].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR33[6] = {0, 10, 0, 100, 1, 100};
+  programBank1[17].SetVolumeDAHDSR(1, _volumeDAHDSR33);
+  programBank1[17].SetFreqAdd(1, 0);
+  programBank1[17].SetOperatorVolume(1,1);
   
 
   //Setup voices
