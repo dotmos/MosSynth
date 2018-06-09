@@ -50,9 +50,9 @@ void Voice::Setup(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper 
   
   this->program = program;
 
-  //(*(this->carrier)).frequencyModulation(1);
-  //(*(this->modulator)).frequencyModulation(1);
-  //~OPL3/~DX7 style
+  //(*(this->carrier)).frequencyModulation(10);
+  //(*(this->modulator)).frequencyModulation(10);
+  //~OPL3/~DX7 style. (Yamaha marketing used FM, but implementation was actually PM)
   (*(this->modulator)).phaseModulation(900);
   (*(this->carrier)).phaseModulation(900);
 

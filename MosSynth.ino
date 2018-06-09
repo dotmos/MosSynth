@@ -1,8 +1,5 @@
 /*
  * TODO:
- * Frequency: Multitude of frequency (0.25, 0.5, 1, 2, 3, 4) - Coarse
- * Frequency: Detune (0-100Hz?) - Fine
- * Programs
  * Different algorithms (up to 4 operators per voice? Currently only 2)
  * custom waveforms
  * Pitch + pitch envelope?
@@ -327,6 +324,10 @@ void setup() {
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.25);
   sgtl5000_1.adcHighPassFilterDisable();  //reduce noise.  https://forum.pjrc.com/threads/27215-24-bit-audio-boards?p=78831&viewfull=1#post78831
+  sgtl5000_1.inputSelect(AUDIO_INPUT_MIC);
+  sgtl5000_1.micGain(0); //does not affect noise it seems
+  sgtl5000_1.inputLevel(0); //does not affect noise it seems
+  //sgtl5000_1.enhanceBassEnable(); //Not sure if this does anything. Might only work for input->output routing e.g. mic->headphones
 
   //output
   mixer1.gain(0, 0.25);
@@ -656,6 +657,27 @@ void setup() {
   programBank1[17].SetVolumeDAHDSR(1, _volumeDAHDSR33);
   programBank1[17].SetFreqAdd(1, 0);
   programBank1[17].SetOperatorVolume(1,1);
+
+  //80s bass
+  programBank1[18].SetWaveform(0, WAVEFORM_TRIANGLE);
+  programBank1[18].SetFreqMul(0, 1.0);
+  float _volumeDAHDSR34[6] = {0, 100, 0, 50, 0.3, 70};
+  programBank1[18].SetVolumeDAHDSR(0, _volumeDAHDSR34);
+  programBank1[18].SetFreqAdd(0, 1);
+  programBank1[18].SetOperatorVolume(0,0.1);
+  float _waveshape34[17] = {-0.5, -1,-1,-1,-1,-1,-1, -0.5, 0, 0.5,1,1,1,1,1,1, 0.5};// {-1, -1, -1, -1, -1,-0.75, -0.5, -0.25, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1};
+  //programBank1[18].SetWaveshape(0, _waveshape34); 
+  programBank1[18].SetWaveform(1, WAVEFORM_SINE);
+  programBank1[18].SetFreqMul(1, 1.0);
+  float _volumeDAHDSR35[6] = {0, 10, 0, 10, 1, 100};
+  programBank1[18].SetVolumeDAHDSR(1, _volumeDAHDSR35);
+  programBank1[18].SetFreqAdd(1, 0);
+  programBank1[18].SetOperatorVolume(1,1);
+  float _waveshape35[17] = {-0.5,-1,-1,-1,-1,-1,-0.75,-0.5, 0, 0.5,0.75,1,1,1,1,1,0.5};
+  //{-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow2
+  // {-1, -1, -1, -1, -1, -1,-1, -1, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //guitary
+  // {-1, -0.765625, -0.5625, -0.390625, -0.25, -0.140625, -0.0625, -0.015625, 0, 0.015625, 0.0625, 0.140625, 0.25, 0.390625, 0.5625, 0.765625, 1}; //pow2
+  programBank1[18].SetWaveshape(1, _waveshape35); 
   
 
   //Setup voices
