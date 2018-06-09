@@ -11,17 +11,38 @@ class Voice{
     AudioSynthWaveformModulated *carrier;
     AudioEffectWaveshaper *carrierWaveshape;
     AudioEffectEnvelope      *carrierEnvelope;      //xy=872,301
+    AudioFilterStateVariable *filter;
+    AudioEffectEnvelope      *filterEnvelope;
+    AudioMixer4 *filterMixer;
     bool isPlaying;
     //The program used by this voice
     Program *program; 
 
-    void Setup(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    void Setup(AudioSynthWaveformModulated *modulator,
+              AudioEffectWaveshaper *modulatorWaveshape,
+              AudioEffectEnvelope *modulatorEnvelope,
+              AudioSynthWaveformModulated *carrier,
+              AudioEffectWaveshaper *carrierWaveshape,
+              AudioEffectEnvelope *carrierEnvelope,
+              AudioFilterStateVariable *filter,
+              AudioEffectEnvelope *filterEnvelope,
+              AudioMixer4 *filterMixer,
+              Program *program);
 
   public:
     byte pitch;
     byte channel;
     Voice();
-    Voice(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program);
+    Voice(AudioSynthWaveformModulated *modulator,
+          AudioEffectWaveshaper *modulatorWaveshape,
+          AudioEffectEnvelope *modulatorEnvelope,
+          AudioSynthWaveformModulated *carrier,
+          AudioEffectWaveshaper *carrierWaveshape,
+          AudioEffectEnvelope *carrierEnvelope,
+          AudioFilterStateVariable *filter,
+          AudioEffectEnvelope *filterEnvelope,
+          AudioMixer4 *filterMixer,
+          Program *program);
     
 
     void SetProgram(Program *program);
@@ -34,12 +55,30 @@ class Voice{
 Voice::Voice(){
 }
 
-Voice::Voice(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program)
+Voice::Voice(AudioSynthWaveformModulated *modulator,
+            AudioEffectWaveshaper *modulatorWaveshape,
+            AudioEffectEnvelope *modulatorEnvelope,
+            AudioSynthWaveformModulated *carrier,
+            AudioEffectWaveshaper *carrierWaveshape,
+            AudioEffectEnvelope *carrierEnvelope,
+            AudioFilterStateVariable *filter,
+            AudioEffectEnvelope *filterEnvelope,
+            AudioMixer4 *filterMixer,
+            Program *program)
 {
- Setup(modulator, modulatorWaveshape, modulatorEnvelope, carrier, carrierWaveshape, carrierEnvelope, program);
+ Setup(modulator, modulatorWaveshape, modulatorEnvelope, carrier, carrierWaveshape, carrierEnvelope, filter, filterEnvelope, filterMixer, program);
 }
 
-void Voice::Setup(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper *modulatorWaveshape, AudioEffectEnvelope *modulatorEnvelope, AudioSynthWaveformModulated *carrier, AudioEffectWaveshaper *carrierWaveshape, AudioEffectEnvelope *carrierEnvelope, Program *program){
+void Voice::Setup(AudioSynthWaveformModulated *modulator,
+                  AudioEffectWaveshaper *modulatorWaveshape,
+                  AudioEffectEnvelope *modulatorEnvelope,
+                  AudioSynthWaveformModulated *carrier,
+                  AudioEffectWaveshaper *carrierWaveshape,
+                  AudioEffectEnvelope *carrierEnvelope,
+                  AudioFilterStateVariable *filter,
+                  AudioEffectEnvelope *filterEnvelope,
+                  AudioMixer4 *filterMixer,
+                  Program *program){
   this->modulator = modulator;
   this->modulatorWaveshape = modulatorWaveshape;
   this->modulatorEnvelope = modulatorEnvelope;
@@ -47,6 +86,16 @@ void Voice::Setup(AudioSynthWaveformModulated *modulator, AudioEffectWaveshaper 
   this->carrier = carrier;
   this->carrierWaveshape = carrierWaveshape;
   this->carrierEnvelope = carrierEnvelope;
+
+  this->filter = filter;
+  this->filterEnvelope = filterEnvelope;
+  this->filterMixer = filterMixer;
+  
+  //Setup default filter mixer
+  (*(this->filterMixer)).gain(0, 1);
+  (*(this->filterMixer)).gain(1, 1);
+  (*(this->filterMixer)).gain(2, 1);
+  (*(this->filterMixer)).gain(3, 0);
   
   this->program = program;
 
@@ -178,6 +227,23 @@ void Voice::NoteOn(byte channel, byte pitch, float level){
   (*(this->carrierEnvelope)).release(*(carrierVolumeEnvelopeSettings+5));
   (*(this->carrierEnvelope)).noteOn();
 
+
+  //Filter
+  (*(this->filter)).frequency( (*(this->program)).GetFilterCutoff() );
+  (*(this->filter)).resonance( (*(this->program)).GetFilterResonance() );
+  (*(this->filter)).octaveControl( (*(this->program)).GetFilterOctaveControl() );
+  float *filterVolumeEnvelopeSettings = (*(this->program)).GetFilterDAHDSR();
+  (*(this->filterEnvelope)).delay(*(filterVolumeEnvelopeSettings+0));
+  (*(this->filterEnvelope)).attack(*(filterVolumeEnvelopeSettings+1));
+  (*(this->filterEnvelope)).hold(*(filterVolumeEnvelopeSettings+2));
+  (*(this->filterEnvelope)).decay(*(filterVolumeEnvelopeSettings+3));
+  (*(this->filterEnvelope)).sustain(*(filterVolumeEnvelopeSettings+4));
+  (*(this->filterEnvelope)).release(*(filterVolumeEnvelopeSettings+5));
+  (*(this->filterEnvelope)).noteOn();
+  (*(this->filterMixer)).gain(0, (*(this->program)).GetFilterLowpassVolume() );
+  (*(this->filterMixer)).gain(1, (*(this->program)).GetFilterBandpassVolume() );
+  (*(this->filterMixer)).gain(2, (*(this->program)).GetFilterHighpassVolume() );
+  (*(this->filterMixer)).gain(3, 0 );
   
   this->isPlaying = true;
   
@@ -188,6 +254,7 @@ void Voice::NoteOn(byte channel, byte pitch, float level){
 void Voice::NoteOff(){
   (*(this->modulatorEnvelope)).noteOff();
   (*(this->carrierEnvelope)).noteOff();
+  (*(this->filterEnvelope)).noteOff();
   this->isPlaying = false;
 }
 

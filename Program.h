@@ -25,11 +25,37 @@ class Program {
     //byte algorithm; //The modulation algorithm to use. Frequency modulation or phase modulation
     //string name; //name of the program
 
-    void Setup(short waveform[2], float waveshape[2][WAVESHAPE_SAMPLE_SIZE], float freqMul[2], float freqAdd[2], float volumeDAHDSR[2][6], float operatorVolume[2]);
+    float filterCutoff; //Filter cutoff frequency
+    float filterResonance; //Filter resonance. Range 0-5. Values > 0.7 will amplify the signal near the corner frequency.
+    float filterOctaveControl; //Range is 0 to 7 octaves. For example, when set to 2.5, a full scale positive signal (1.0) will shift the filter frequency up 2.5 octaves, and a full scale negative signal will shift it down 2.5 octaves.
+    float filterMixer[3]; //Filter mixer settings. 0 = lowpass, 1 = bandpass, 2 = highpass
+    float filterDAHDSR[6];
+
+    void Setup(short waveform[2],
+              float waveshape[2][WAVESHAPE_SAMPLE_SIZE],
+              float freqMul[2],
+              float freqAdd[2],
+              float volumeDAHDSR[2][6],
+              float operatorVolume[2],
+              float filterCutoff,
+              float filterResonance,
+              float filterOctaveControl,
+              float filterMixer[3],
+              float filterDAHDSR[6]);
     
   public:
     Program();
-    Program(short waveform[2], float waveshape[2][WAVESHAPE_SAMPLE_SIZE], float freqMul[2], float freqAdd[2], float volumeDAHDSR[2][6], float operatorVolume[2]);
+    Program(short waveform[2],
+            float waveshape[2][WAVESHAPE_SAMPLE_SIZE],
+            float freqMul[2],
+            float freqAdd[2],
+            float volumeDAHDSR[2][6],
+            float operatorVolume[2],
+            float filterCutoff,
+            float filterResonance,
+            float filterOctaveControl,
+            float filterMixer[3],
+            float filterDAHDSR[6]);
 
     void SetWaveform(byte operatorIndex, short waveform);
     short GetWaveform(byte operatorIndex);
@@ -50,12 +76,29 @@ class Program {
     void SetWaveshape(byte operatorIndex, byte sampleIndex, float sample);
     float *GetWaveshape(byte operatorIndex);
     float GetWaveshape(byte operatorIndex, byte sampleIndex);
+
+    void SetFilterCutoff(float cutoff);
+    float GetFilterCutoff();
+    void SetFilterResonance(float resonance);
+    float GetFilterResonance();
+    void SetFilterOctaveControl(float factor);
+    float GetFilterOctaveControl();
+
+    void SetFilterLowpassVolume(float volume);
+    float GetFilterLowpassVolume();
+    void SetFilterBandpassVolume(float volume);
+    float GetFilterBandpassVolume();
+    void SetFilterHighpassVolume(float volume);
+    float GetFilterHighpassVolume();
+    
+    void SetFilterDAHDSR(float dahdsr[6]);
+    float *GetFilterDAHDSR();
 };
 
 Program::Program() {
-  short _waveform[2] = {WAVEFORM_SINE, WAVEFORM_SQUARE};
-  float _freqMul[2] = {0.5, 1.0};
-  float _freqAdd[2] = {0.0, 0};
+  short _waveform[2] = {WAVEFORM_SINE, WAVEFORM_SINE};
+  float _freqMul[2] = {1.0, 1.0};
+  float _freqAdd[2] = {0.0, 0.0};
   /*
   uint16_t _volumeDAHDSR[4][6] = { 
     {0, 10, 0, 10, 1, 10},
@@ -65,26 +108,49 @@ Program::Program() {
   };
   */
   float _volumeDAHDSR[2][6] = { 
-    {0, 2500, 0, 1, 1, 120},
-    {0, 10, 0, 50, 1, 120}
-    //{0, 10, 0, 10, 1, 10},
-    //{0, 10, 0, 10, 1, 10}
+    {0, 1, 0, 1, 1, 1},
+    {0, 1, 0, 1, 1, 1}
+    //{0, 1, 0, 1, 1, 1},
+    //{0, 1, 0, 1, 1, 1}
   };
 
-  float _operatorVolume[2] = {0.1, 0.5};
+  float _operatorVolume[2] = {0, 1};
 
   float _waveshape[2][WAVESHAPE_SAMPLE_SIZE] = {
     {-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1},
     {-1, -0.875, -0.75, -0.625, -0.5, -0.375, -0.25, -0.125, 0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1}
   };
 
-  this->Setup(_waveform, _waveshape, _freqMul, _freqAdd, _volumeDAHDSR, _operatorVolume);
+  float _filterMixer[3] = {1,1,1};
+  float _filterDAHDSR[6] = {0, 0,0,0,0,0};
+
+  this->Setup(_waveform, _waveshape, _freqMul, _freqAdd, _volumeDAHDSR, _operatorVolume, 11025, 0.707, 0, _filterMixer, _filterDAHDSR);
 }
-Program::Program(short waveform[2], float waveshape[2][WAVESHAPE_SAMPLE_SIZE], float freqMul[2], float freqAdd[2], float volumeDAHDSR[2][6], float operatorVolume[2]) {
-  this->Setup(waveform, waveshape, freqMul, freqAdd, volumeDAHDSR, operatorVolume);
+Program::Program(short waveform[2],
+                float waveshape[2][WAVESHAPE_SAMPLE_SIZE],
+                float freqMul[2],
+                float freqAdd[2],
+                float volumeDAHDSR[2][6],
+                float operatorVolume[2],
+                float filterCutoff,
+                float filterResonance,
+                float filterOctaveControl,
+                float filterMixer[3],
+                float filterDAHDSR[6]) {
+  this->Setup(waveform, waveshape, freqMul, freqAdd, volumeDAHDSR, operatorVolume, filterCutoff, filterResonance, filterOctaveControl, filterMixer, filterDAHDSR);
 }
 
-void Program::Setup(short waveform[2], float waveshape[2][WAVESHAPE_SAMPLE_SIZE], float freqMul[2], float freqAdd[2], float volumeDAHDSR[2][6], float operatorVolume[2]) {
+void Program::Setup(short waveform[2],
+                    float waveshape[2][WAVESHAPE_SAMPLE_SIZE],
+                    float freqMul[2],
+                    float freqAdd[2],
+                    float volumeDAHDSR[2][6],
+                    float operatorVolume[2],
+                    float filterCutoff,
+                    float filterResonance,
+                    float filterOctaveControl,
+                    float filterMixer[3],
+                    float filterDAHDSR[6]) {
 
   //TODO: Reset settings and free memory
   
@@ -97,6 +163,14 @@ void Program::Setup(short waveform[2], float waveshape[2][WAVESHAPE_SAMPLE_SIZE]
     this->SetOperatorVolume(i, operatorVolume[i]);
     this->SetWaveshape(i, waveshape[i]);
   }
+
+  this->SetFilterCutoff(filterCutoff);
+  this->SetFilterResonance(filterResonance);
+  this->SetFilterOctaveControl(filterOctaveControl);
+  this->SetFilterLowpassVolume(filterMixer[0]);
+  this->SetFilterBandpassVolume(filterMixer[1]);
+  this->SetFilterHighpassVolume(filterMixer[2]);
+  this->SetFilterDAHDSR(filterDAHDSR);
 }
 
 //Sets the waveforms of an operator
@@ -162,4 +236,54 @@ float Program::GetWaveshape(byte operatorIndex, byte sampleIndex){
   return this->waveshape[operatorIndex][sampleIndex];
 }
 
+void Program::SetFilterCutoff(float cutoff){
+  this->filterCutoff = cutoff;
+}
+float Program::GetFilterCutoff(){
+  return this->filterCutoff;
+}
+
+void Program::SetFilterResonance(float resonance){
+  this->filterResonance = resonance;
+}
+float Program::GetFilterResonance(){
+  return this->filterResonance;
+}
+
+void Program::SetFilterOctaveControl(float factor){
+  this->filterOctaveControl = factor;
+}
+float Program::GetFilterOctaveControl(){
+  return this->filterOctaveControl;
+}
+
+void Program::SetFilterLowpassVolume(float volume){
+  this->filterMixer[0] = volume;
+}
+float Program::GetFilterLowpassVolume(){
+  return this->filterMixer[0];
+}
+
+void Program::SetFilterBandpassVolume(float volume){
+  this->filterMixer[1] = volume;
+}
+float Program::GetFilterBandpassVolume(){
+  return this->filterMixer[1];
+}
+
+void Program::SetFilterHighpassVolume(float volume){
+  this->filterMixer[2] = volume;
+}
+float Program::GetFilterHighpassVolume(){
+  return this->filterMixer[2];
+}
+
+void Program::SetFilterDAHDSR(float dahdsr[6]){
+  for(int i=0; i<6; ++i){
+    this->filterDAHDSR[i] = dahdsr[i];
+  }
+}
+float *Program::GetFilterDAHDSR(){
+  return this->filterDAHDSR;
+}
 #endif
